@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>FatTiger</authors>
+    <owners>FatTiger</owners>
+    <licenseUrl>https://github.com/FatTigerWang/NAutowired/blob/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/FatTigerWang/NAutowired</projectUrl>
+    <iconUrl>https://github.com/FatTigerWang/NAutowired</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>无</releaseNotes>
+    <copyright>Copyright © FatTiger 2019</copyright>
+    <tags>asp-net-core dependency-injection nautowired</tags>
+  </metadata>
+</package>
