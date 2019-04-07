@@ -56,7 +56,7 @@ Lightweight ASP.NET CORE DI library
   }
 ```
 
-* 使用`Autowried`
+* 使用`Autowired`
 ```csharp
     public Startup(IConfiguration configuration) {
       Configuration = configuration;
@@ -90,8 +90,8 @@ Lightweight ASP.NET CORE DI library
   [ApiController]
   public class FooController : ControllerBase {
 
-    //使用Autowried Attribute注入实例
-    [Autowried]
+    //使用Autowired Attribute注入实例
+    [Autowired]
     private FooService FooService { get; set; }
 
     [HttpGet]
@@ -103,14 +103,14 @@ Lightweight ASP.NET CORE DI library
 
 `NAutowired`使用ASP.NET CORE自带的DI容器获取实例, 它解决的仅仅是注入依赖的方式, 因此您依旧可以使用`services.AddScope<FooService>()`方式将`FooService`加入到容器.
 ### 进阶
-* 您可以通过`[Autowried(Type)]`方式注入特定的类型.
+* 您可以通过`[Autowired(Type)]`方式注入特定的类型.
 ```csharp
   [Route("api/[controller]")]
   [ApiController]
   public class FooController : ControllerBase {
 
     //注入特定的实例
-    [Autowried(typeof(FooService))]
+    [Autowired(typeof(FooService))]
     private IFooService FooService { get; set; }
 
     [HttpGet]
