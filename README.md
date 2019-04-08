@@ -24,6 +24,7 @@ Lightweight ASP.NET CORE DI library
 且当所有Service都继承某个BaseService时, BaseService增加一个依赖所有Service都需要传递依赖给BaseService, 这时如果你有几十个Service继承BaseService, 则改动是巨大的.
 
 ### 如何使用`NAutowired`
+* nuget包管理器可直接搜索`NAutowired`
 * 在`Startup.cs`中替换默认的`IControllerActivator`实现为`NAutowiredControllerActivator`.
 
 ```csharp
