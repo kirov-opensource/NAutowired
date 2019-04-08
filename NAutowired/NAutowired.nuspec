@@ -7,7 +7,6 @@
     <authors>FatTiger</authors>
     <owners>FatTiger</owners>
 	<license type="file">LICENSE.txt</license>
-    
     <projectUrl>https://github.com/FatTigerWang/NAutowired</projectUrl>
     <iconUrl>https://github.com/FatTigerWang/NAutowired</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
