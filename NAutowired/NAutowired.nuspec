@@ -16,7 +16,6 @@
     <tags>asp-net-core dependency-injection nautowired</tags>
 	<dependencies>
 		<dependency id="Microsoft.AspNetCore.Mvc.Core" version="2.2.0" />
-		<dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.2.0" />
 	</dependencies>
   </metadata>
   <files>
