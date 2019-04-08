@@ -6,7 +6,8 @@
     <title>$title$</title>
     <authors>FatTiger</authors>
     <owners>FatTiger</owners>
-    <licenseUrl>https://github.com/FatTigerWang/NAutowired/blob/master/LICENSE.txt</licenseUrl>
+	<license type="file">LICENSE.txt</license>
+    
     <projectUrl>https://github.com/FatTigerWang/NAutowired</projectUrl>
     <iconUrl>https://github.com/FatTigerWang/NAutowired</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -14,5 +15,12 @@
     <releaseNotes>无</releaseNotes>
     <copyright>Copyright © FatTiger 2019</copyright>
     <tags>asp-net-core dependency-injection nautowired</tags>
+	<dependencies>
+		<dependency id="Microsoft.AspNetCore.Mvc.Core" version="2.2.0" />
+		<dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.2.0" />
+	</dependencies>
   </metadata>
+  <files>
+    <file src="..\LICENSE.txt" target="" />
+  </files>
 </package>
