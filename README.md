@@ -1,5 +1,5 @@
 # NAutowired
-Lightweight ASP.NET CORE DI library
+ASP.NET CORE Field Injection Implement
 ### 为什么要使用`NAutowired`
 `ASP.NET CORE`自带的DI框架，需要通过构造函数进行注入，例如  
 ```csharp
@@ -20,8 +20,8 @@ Lightweight ASP.NET CORE DI library
     }
   }
 ```
-这种方式当项目越来越大的情况下, 一个Service类中可能需要注入数十个依赖, 这时构造函数就显得极为`ugly`.
-且当所有Service都继承某个BaseService时, BaseService增加一个依赖所有Service都需要传递依赖给BaseService, 这时如果你有几十个Service继承BaseService, 则改动是巨大的.
+这种方式当项目越来越大的情况下, 一个Service类中可能需要注入数十个依赖, 这时构造函数就显得极为臃肿.
+`NAutowired`实现了`Field Injection`, 能直接通过类的属性进行注入.
 
 ### 如何使用`NAutowired`
 * nuget包管理器可直接搜索`NAutowired`
@@ -164,3 +164,4 @@ Lightweight ASP.NET CORE DI library
 
 ### 说明
 * 由于`NAutowired`并没有替换`ASP.NET CORE`默认的DI方式, 所以您依然可以通过构造函数注入依赖, `NAutowired`与`ASP.NET CORE`默认的DI方式完全兼容.
+* 使用`Field Injection`是一个反模式的东西, 它违反了`ASP.NET CORE`的[显式依赖](https://docs.microsoft.com/zh-cn/dotnet/standard/modern-web-apps-azure-architecture/architectural-principles#explicit-dependencies)原则.
