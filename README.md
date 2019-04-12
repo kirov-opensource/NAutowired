@@ -24,6 +24,7 @@ ASP.NET CORE Field Injection Implement
 `NAutowired`实现了`Field Injection`, 能直接通过类的属性进行注入.
 
 ### 如何使用`NAutowired`
+* [查看使用样例](https://github.com/FatTigerWang/NAutowiredSample)
 * nuget包管理器可直接搜索`NAutowired`
 * 在`Startup.cs`中替换默认的`IControllerActivator`实现为`NAutowiredControllerActivator`.
 
