@@ -29,60 +29,23 @@ ASP.NET CORE Field Injection Implement
 
 ```csharp
   public class Startup {
-    public Startup(IConfiguration configuration) {
-      Configuration = configuration;
-    }
-
-    public IConfiguration Configuration { get; }
-
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) {
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
       //替换默认的`IControllerActivator`实现.
       services.AddSingleton<IControllerActivator, NAutowiredControllerActivator>();
     }
-
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
-      if (env.IsDevelopment()) {
-        app.UseDeveloperExceptionPage();
-      } else {
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        app.UseHsts();
-      }
-
-      app.UseHttpsRedirection();
-      app.UseMvc();
-    }
   }
 ```
 
 * 使用`Autowired`
 ```csharp
-    public Startup(IConfiguration configuration) {
-      Configuration = configuration;
-    }
-
-    public IConfiguration Configuration { get; }
-
+  public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) {
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
       //将FooService加到容器
       services.AddScoped<FooService>();
-    }
-
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
-      if (env.IsDevelopment()) {
-        app.UseDeveloperExceptionPage();
-      } else {
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        app.UseHsts();
-      }
-
-      app.UseHttpsRedirection();
-      app.UseMvc();
     }
   }
 ```
@@ -101,6 +64,36 @@ ASP.NET CORE Field Injection Implement
     }
   }
 ```
+* 在`Filter`中使用`NAutowired`
+```csharp
+  public class Startup {
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services) {
+      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+      //将Filter加到容器
+      services.AddScoped<AuthorizationFilter>();
+    }
+  }
+```
+```csharp
+  //使用 ServiceFilterAttribute
+  [NAutowired.Attributes.ServiceFilter(typeof(AuthorizationFilter))]
+  public class FooController : ControllerBase {
+
+  }
+```
+```csharp
+  public class AuthorizationFilter : IAuthorizationFilter {
+    [Autowired]
+    private FooService FooService { get; set; }
+
+    public void OnAuthorization(AuthorizationFilterContext context) {
+      System.Console.WriteLine($"{FooService.ToString()} in filter");
+      return;
+    }
+  }
+```
+
 
 `NAutowired`使用ASP.NET CORE自带的DI容器获取实例, 它解决的仅仅是注入依赖的方式, 因此您依旧可以使用`services.AddScope<FooService>()`方式将`FooService`加入到容器.
 ### 进阶
@@ -123,12 +116,6 @@ ASP.NET CORE Field Injection Implement
 * `NAutowired`提供了`AddAutoDependencyInjection(assemblyName)`方法进行自动容器注入.这种方式让您无需在`Startup.cs`中一个个的将类型加入到容器.
 ```csharp
   public class Startup {
-    public Startup(IConfiguration configuration) {
-      Configuration = configuration;
-    }
-
-    public IConfiguration Configuration { get; }
-
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) {
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -136,22 +123,9 @@ ASP.NET CORE Field Injection Implement
       //使用自动注入
       services.AddAutoDependencyInjection("NAutowiredSample");
     }
-
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
-      if (env.IsDevelopment()) {
-        app.UseDeveloperExceptionPage();
-      } else {
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        app.UseHsts();
-      }
-
-      app.UseHttpsRedirection();
-      app.UseMvc();
-    }
   }
 ```
-使用`[Service] [Repository] [Component]`特性标记类
+使用`[Service] [Repository] [Component] [ServiceFilter]`特性标记类
 ```csharp
   //默认DependencyInjectionModeEnum值为Scoped
   [Service]
@@ -160,7 +134,7 @@ ASP.NET CORE Field Injection Implement
   public class FooService {
   }
 ```
-`NAutowired`会自动扫描`AddAutoDependencyInjection(assemblyName)`方法配置的程序集下的所有类, 并将具有`[Service] [Repository] [Component]`特性的类注入到容器.
+`NAutowired`会自动扫描`AddAutoDependencyInjection(assemblyName)`方法配置的程序集下的所有类, 并将具有`[Service] [Repository] [Component] [ServiceFilter]`特性的类注入到容器.
 
 ### 说明
 * 由于`NAutowired`并没有替换`ASP.NET CORE`默认的DI方式, 所以您依然可以通过构造函数注入依赖, `NAutowired`与`ASP.NET CORE`默认的DI方式完全兼容.
