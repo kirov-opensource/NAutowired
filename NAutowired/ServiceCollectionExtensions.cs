@@ -10,7 +10,7 @@ namespace NAutowired {
     /// 
     /// </summary>
     /// <param name="services"></param>
-    /// <param name="assembly">程序集</param>
+    /// <param name="assembly">assembly name</param>
     public static void AddAutoDependencyInjection(this IServiceCollection services, string assembly) {
       //拿到程序集下所有类
       var types = Assembly.Load(assembly).GetTypes();
@@ -25,6 +25,9 @@ namespace NAutowired {
             break;
           } else if (attribute is ComponentAttribute) {
             AddDependencyInjection(services, type, ((ComponentAttribute)attribute).DependencyInjectionMode);
+            break;
+          } else if (attribute is FilterAttribute) {
+            AddDependencyInjection(services, type, ((FilterAttribute)attribute).DependencyInjectionMode);
             break;
           }
         }
