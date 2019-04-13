@@ -28,7 +28,7 @@ As the project grows larger, a Service class may need to inject dozens of depend
 `NAutowired` implements `Field Injection`, Can be injected directly through the properties of the class.
 
 ### How to use.
-* [Expanmle](https://github.com/FatTigerWang/NAutowiredSample)
+* [Sample](https://github.com/FatTigerWang/NAutowiredSample)
 * Replace the default `IControllerActivator` implementation with `NAutowiredControllerActivator` in `Startup.cs`.
 
 ```csharp
