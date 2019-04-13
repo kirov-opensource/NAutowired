@@ -1,5 +1,7 @@
 
-# NAutowired [![NuGet](https://img.shields.io/nuget/v/NAutowired.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/NAutowired/)
+# NAutowired
+[![NuGet](https://img.shields.io/nuget/v/NAutowired.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/NAutowired/)
+
 ASP.NET CORE Field Injection Implement
 
 * [中文](./README.md)
