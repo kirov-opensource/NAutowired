@@ -140,4 +140,4 @@ As the project grows larger, a Service class may need to inject dozens of depend
 
 ### 说明
 * 由于`NAutowired`并没有替换`ASP.NET CORE`默认的DI方式, 所以您依然可以通过构造函数注入依赖, `NAutowired`与`ASP.NET CORE`默认的DI方式完全兼容.
-* 使用`Field Injection`是一个反模式的东西, 它违反了`ASP.NET CORE`的[显式依赖](https://docs.microsoft.com/zh-cn/dotnet/standard/modern-web-apps-azure-architecture/architectural-principles#explicit-dependencies)原则.
+* 使用`Field Injection`是一个反模式的东西, 它违反了`ASP.NET CORE`的[Explicit dependencies](https://docs.microsoft.com/en-us/dotnet/standard/modern-web-apps-azure-architecture/architectural-principles#explicit-dependencies)原则.
