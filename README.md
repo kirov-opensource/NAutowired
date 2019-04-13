@@ -1,5 +1,8 @@
 # NAutowired
 ASP.NET CORE Field Injection Implement
+
+* [English](./README_EN.md)
+
 ### 为什么要使用`NAutowired`
 `ASP.NET CORE`自带的DI框架，需要通过构造函数进行注入，例如  
 ```csharp
