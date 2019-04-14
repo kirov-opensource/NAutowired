@@ -1,7 +1,7 @@
 # NAutowired 
 [![NuGet](https://img.shields.io/nuget/v/NAutowired.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/NAutowired/)
 
-ASP.NET CORE 属性注入依赖
+ASP.NET CORE 通过属性注入依赖
 
 * [English](./README_EN.md)
 
