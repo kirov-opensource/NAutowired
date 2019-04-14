@@ -6,8 +6,8 @@ ASP.NET CORE Field Injection Implement
 
 * [中文](./README.md)
 
-### Why use it?
-`ASP.NET CORE` provided official DI framework,Need to inject through the constructor. For example  
+### Why to use
+`ASP.NET CORE` provided official DI framework,Need to inject through the constructor.
 ```csharp
   [Route("api/[controller]")]
   [ApiController]
@@ -29,9 +29,9 @@ ASP.NET CORE Field Injection Implement
 As the project grows larger, a Service class may need to inject dozens of dependencies, and the constructor is extremely bloated.
 `NAutowired` implements `Field Injection`, Can be injected directly through the properties of the class.
 
-### How to use.
+### How to use
 * [Sample](https://github.com/FatTigerWang/NAutowiredSample)
-* Replace the default `IControllerActivator` implementation with `NAutowiredControllerActivator` in `Startup.cs`.
+* Replace the default `IControllerActivator` implementation with `NAutowiredControllerActivator` in `Startup.cs`
 
 ```csharp
   public class Startup {
@@ -49,7 +49,7 @@ As the project grows larger, a Service class may need to inject dozens of depend
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) {
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-      //将FooService加到容器
+      //Add FooService to container
       services.AddScoped<FooService>();
     }
 ```
@@ -58,7 +58,7 @@ As the project grows larger, a Service class may need to inject dozens of depend
   [ApiController]
   public class FooController : ControllerBase {
 
-    //使用Autowired Attribute注入实例
+    //Use Autowired injection
     [Autowired]
     private FooService FooService { get; set; }
 
@@ -68,19 +68,19 @@ As the project grows larger, a Service class may need to inject dozens of depend
     }
   }
 ```
-* 在`Filter`中使用`NAutowired`
+* Use in `Filter`
 ```csharp
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) {
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-      //将Filter加到容器
+      //Add Filter to container
       services.AddScoped<AuthorizationFilter>();
     }
   }
 ```
 ```csharp
-  //使用 ServiceFilterAttribute
+  //Use ServiceFilter like ASP.NET CORE ServiceFilter
   [NAutowired.Attributes.ServiceFilter(typeof(AuthorizationFilter))]
   public class FooController : ControllerBase {
 
@@ -97,11 +97,10 @@ As the project grows larger, a Service class may need to inject dozens of depend
     }
   }
 ```
+`NAutowired` uses the DI container of ASP.NET CORE to get the instance, it just adds the way to inject dependencies, so you can still add `FooService` to the container using `services.AddScope<FooService>()`.
 
-
-`NAutowired`使用ASP.NET CORE自带的DI容器获取实例, 它解决的仅仅是注入依赖的方式, 因此您依旧可以使用`services.AddScope<FooService>()`方式将`FooService`加入到容器.
-### 进阶
-* 您可以通过`[Autowired(Type)]`方式注入特定的类型.
+### Advanced
+* You can inject a specific type with the `[Autowired(Type)]` method
 ```csharp
   [Route("api/[controller]")]
   [ApiController]
@@ -117,7 +116,7 @@ As the project grows larger, a Service class may need to inject dozens of depend
     }
   }
 ```
-* `NAutowired`提供了`AddAutoDependencyInjection(assemblyName)`方法进行自动容器注入.这种方式让您无需在`Startup.cs`中一个个的将类型加入到容器.
+* `NAutowired` provides the `AddAutoDependencyInjection(assemblyName)` method for automatic container injection. This way you don't need to add the type to the container one by one in `Startup.cs`
 ```csharp
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
@@ -129,17 +128,17 @@ As the project grows larger, a Service class may need to inject dozens of depend
     }
   }
 ```
-使用`[Service] [Repository] [Component] [ServiceFilter]`特性标记类
+Use the `[Service] [Repository] [Component] [ServiceFilter]` attribute tag class
 ```csharp
-  //默认DependencyInjectionModeEnum值为Scoped
+  //The default DependencyInjectionModeEnum value is Scoped
   [Service]
-  //DependencyInjectionModeEnum可供选择依赖注入的生命周期
+  //DependencyInjectionModeEnum to choose the life cycle of dependency injection
   //[Service(DependencyInjectionModeEnum.Singleton)]
   public class FooService {
   }
 ```
-`NAutowired`会自动扫描`AddAutoDependencyInjection(assemblyName)`方法配置的程序集下的所有类, 并将具有`[Service] [Repository] [Component] [ServiceFilter]`特性的类注入到容器.
+`NAutowired` will automatically scan all classes under the assembly configured by the `AddAutoDependencyInjection(assemblyName)` method, and inject the class with the `[Service] [Repository] [Component] [ServiceFilter]` property into the container.
 
-### 说明
-* 由于`NAutowired`并没有替换`ASP.NET CORE`默认的DI方式, 所以您依然可以通过构造函数注入依赖, `NAutowired`与`ASP.NET CORE`默认的DI方式完全兼容.
-* 使用`Field Injection`是一个反模式的东西, 它违反了`ASP.NET CORE`的[Explicit dependencies](https://docs.microsoft.com/en-us/dotnet/standard/modern-web-apps-azure-architecture/architectural-principles#explicit-dependencies)原则.
+### Explanation
+* Since `NAutowired` does not replace the default DI mode of `ASP.NET CORE`, you can still inject dependencies through the constructor. `NAutowired` is fully compatible with the default DI mode of `ASP.NET CORE`.
+* Using `Field Injection` is an anti-pattern thing that violates the [Explicit dependencies](https://docs.microsoft.com/en-us/dotnet/standard/modern-web-apps-azure-architecture/architectural-principles#explicit-dependencies) principle of `ASP.NET CORE`.
