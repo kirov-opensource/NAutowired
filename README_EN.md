@@ -30,17 +30,17 @@ As the project grows larger, a Service class may need to inject dozens of depend
 `NAutowired` implements `Field Injection`, Can be injected directly through the properties of the class.
 
 ### How to use
-* [Sample](https://github.com/FatTigerWang/NAutowiredSample)
-* Replace the default `IControllerActivator` implementation with `NAutowiredControllerActivator` in `Startup.cs`
+* [Sample](https://github.com/FatTigerWang/NAutowiredSample).
+* Replace the default `IControllerActivator` implementation with `NAutowiredControllerActivator` in `Startup.cs`.
 
 ```csharp
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) {
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-      //Replace
+      //Replace.
       //When creating the Controller,Program will find if there is a class that implements IControllerActivator in IServiceProvider. If it finds it, it will use it to construct Controller, otherwise it will use DefaultControllerActivator.
-      //Reference https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1#default-service-container-replacement
+      //Reference https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1#default-service-container-replacement.
       services.AddSingleton<IControllerActivator, NAutowiredControllerActivator>();
     }
 ```
@@ -49,7 +49,7 @@ As the project grows larger, a Service class may need to inject dozens of depend
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) {
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-      //Add FooService to container
+      //Add FooService to container.
       services.AddScoped<FooService>();
     }
 ```
@@ -58,7 +58,7 @@ As the project grows larger, a Service class may need to inject dozens of depend
   [ApiController]
   public class FooController : ControllerBase {
 
-    //Use Autowired injection
+    //Use Autowired injection.
     [Autowired]
     private FooService FooService { get; set; }
 
@@ -68,19 +68,19 @@ As the project grows larger, a Service class may need to inject dozens of depend
     }
   }
 ```
-* Use in `Filter`
+* Use in `Filter`.
 ```csharp
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) {
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-      //Add Filter to container
+      //Add Filter to container.
       services.AddScoped<AuthorizationFilter>();
     }
   }
 ```
 ```csharp
-  //Use ServiceFilter like ASP.NET CORE ServiceFilter
+  //Use ServiceFilter like ASP.NET CORE ServiceFilter.
   [NAutowired.Attributes.ServiceFilter(typeof(AuthorizationFilter))]
   public class FooController : ControllerBase {
 
@@ -100,13 +100,13 @@ As the project grows larger, a Service class may need to inject dozens of depend
 `NAutowired` uses the DI container of ASP.NET CORE to get the instance, it just adds the way to inject dependencies, so you can still add `FooService` to the container using `services.AddScope<FooService>()`.
 
 ### Advanced
-* You can inject a specific type with the `[Autowired(Type)]` method
+* You can inject a specific type with the `[Autowired(Type)]` method.
 ```csharp
   [Route("api/[controller]")]
   [ApiController]
   public class FooController : ControllerBase {
 
-    //注入特定的实例
+    //Inject a specific instance.
     [Autowired(typeof(FooService))]
     private IFooService FooService { get; set; }
 
@@ -116,19 +116,19 @@ As the project grows larger, a Service class may need to inject dozens of depend
     }
   }
 ```
-* `NAutowired` provides the `AddAutoDependencyInjection(assemblyName)` method for automatic container injection. This way you don't need to add the type to the container one by one in `Startup.cs`
+* `NAutowired` provides the `AddAutoDependencyInjection(assemblyName)` method for automatic container injection. This way you don't need to add the type to the container one by one in `Startup.cs`.
 ```csharp
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) {
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
       //services.AddScoped<FooService>();
-      //使用自动注入
+      //Use automatic injection.
       services.AddAutoDependencyInjection("NAutowiredSample");
     }
   }
 ```
-Use the `[Service] [Repository] [Component] [ServiceFilter]` attribute tag class
+Use the `[Service] [Repository] [Component] [ServiceFilter]` attribute tag class.
 ```csharp
   //The default DependencyInjectionModeEnum value is Scoped
   [Service]
