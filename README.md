@@ -5,7 +5,7 @@ ASP.NET CORE 通过属性注入依赖
 
 * [English](./README_EN.md)
 
-### 为什么要使用`NAutowired`
+### 为什么要使用
 `ASP.NET CORE`自带的DI框架，需要通过构造函数进行注入，例如  
 ```csharp
   [Route("api/[controller]")]
@@ -28,7 +28,7 @@ ASP.NET CORE 通过属性注入依赖
 这种方式当项目越来越大的情况下, 一个Service类中可能需要注入数十个依赖, 这时构造函数就显得极为臃肿.
 `NAutowired`实现了`Field Injection`, 能直接通过类的属性进行注入.
 
-### 如何使用`NAutowired`
+### 如何使用
 * [查看使用样例](https://github.com/FatTigerWang/NAutowiredSample)
 * nuget包管理器可直接搜索`NAutowired`
 * 在`Startup.cs`中替换默认的`IControllerActivator`实现为`NAutowiredControllerActivator`.
