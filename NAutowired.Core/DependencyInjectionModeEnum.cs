@@ -1,4 +1,4 @@
-﻿namespace NAutowired {
+﻿namespace NAutowired.Core {
 
   public enum DependencyInjectionModeEnum {
 
