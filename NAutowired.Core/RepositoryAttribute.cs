@@ -1,20 +1,18 @@
 ﻿using System;
 
-namespace NAutowired.Attributes {
+namespace NAutowired.Core {
   [AttributeUsage(AttributeTargets.Class)]
-  public class ComponentAttribute : Attribute {
-
+  public class RepositoryAttribute : Attribute {
     public DependencyInjectionModeEnum DependencyInjectionMode {
       get;
     } = DependencyInjectionModeEnum.Scoped;
 
-    public ComponentAttribute() {
+    public RepositoryAttribute() {
     }
 
 
-    public ComponentAttribute(DependencyInjectionModeEnum dependencyInjectionMode) {
+    public RepositoryAttribute(DependencyInjectionModeEnum dependencyInjectionMode) {
       this.DependencyInjectionMode = dependencyInjectionMode;
     }
-
   }
 }

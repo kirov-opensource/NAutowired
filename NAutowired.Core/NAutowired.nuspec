@@ -13,11 +13,9 @@
     <description>$description$</description>
     <releaseNotes>无</releaseNotes>
     <copyright>Copyright © FatTiger 2019</copyright>
-    <tags>asp-net-core dependency-injection field-injection nautowired</tags>
+    <tags>nautowired nautowired-core</tags>
     <dependencies>
       <dependency id="NETStandard.Library" version="2.0.3" />
-      <dependency id="Microsoft.AspNetCore.Mvc.Core" version="2.2.0" />
-      <dependency id="NAutowired.Core" version="1.0.0" />
     </dependencies>
   </metadata>
   <files>

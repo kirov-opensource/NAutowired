@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NAutowired.Attributes {
+namespace NAutowired.Core {
   [AttributeUsage(AttributeTargets.Class)]
   public class ServiceAttribute : Attribute {
     public DependencyInjectionModeEnum DependencyInjectionMode {

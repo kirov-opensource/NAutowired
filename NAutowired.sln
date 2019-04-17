@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAutowired", "NAutowired\NAutowired.csproj", "{889903EF-A9E9-4511-89AF-F5E0FA46A031}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAutowired.Core", "NAutowired.Core\NAutowired.Core.csproj", "{61F5D8F8-FF96-4BCD-91B6-68DE770DD580}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{889903EF-A9E9-4511-89AF-F5E0FA46A031}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{889903EF-A9E9-4511-89AF-F5E0FA46A031}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{889903EF-A9E9-4511-89AF-F5E0FA46A031}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61F5D8F8-FF96-4BCD-91B6-68DE770DD580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61F5D8F8-FF96-4BCD-91B6-68DE770DD580}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61F5D8F8-FF96-4BCD-91B6-68DE770DD580}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61F5D8F8-FF96-4BCD-91B6-68DE770DD580}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

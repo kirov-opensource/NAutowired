@@ -1,4 +1,4 @@
-﻿using NAutowired.Attributes;
+﻿using NAutowired.Core;
 using NAutowired.Exceptions;
 using System;
 using System.Reflection;
