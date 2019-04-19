@@ -15,7 +15,7 @@
     <copyright>Copyright © FatTiger 2019</copyright>
     <tags>nautowired nautowired-core</tags>
     <dependencies>
-      <dependency id="NETStandard.Library" version="2.0.3" />
+      <group targetFramework="netstandard2.0" />
     </dependencies>
   </metadata>
   <files>
