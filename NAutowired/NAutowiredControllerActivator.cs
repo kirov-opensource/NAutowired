@@ -10,7 +10,7 @@ namespace NAutowired {
     public override object Create(ControllerContext actionContext) {
       //default create controller function
       var controllerInstance = base.Create(actionContext);
-      NAutowired.RecursionDependencyInjection(actionContext.HttpContext.RequestServices, controllerInstance);
+      NAutowired.FieldDependencyInjection(actionContext.HttpContext.RequestServices, controllerInstance);
       return controllerInstance;
     }
 

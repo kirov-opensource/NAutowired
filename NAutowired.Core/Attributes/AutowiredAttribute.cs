@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NAutowired.Core {
+namespace NAutowired.Core.Attributes {
   [AttributeUsage(AttributeTargets.Property)]
   public class AutowiredAttribute : Attribute {
 

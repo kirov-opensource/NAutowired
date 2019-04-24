@@ -1,18 +1,16 @@
 ﻿using System;
 
-namespace NAutowired.Core {
-
+namespace NAutowired.Core.Attributes {
   [AttributeUsage(AttributeTargets.Class)]
-  public class FilterAttribute : Attribute {
+  public class ServiceAttribute : Attribute {
     public DependencyInjectionModeEnum DependencyInjectionMode {
       get;
     } = DependencyInjectionModeEnum.Scoped;
 
-    public FilterAttribute() {
+    public ServiceAttribute() {
     }
 
-
-    public FilterAttribute(DependencyInjectionModeEnum dependencyInjectionMode) {
+    public ServiceAttribute(DependencyInjectionModeEnum dependencyInjectionMode) {
       this.DependencyInjectionMode = dependencyInjectionMode;
     }
   }
