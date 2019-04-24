@@ -1,7 +1,10 @@
 # NAutowired 
-[![NuGet](https://img.shields.io/nuget/v/NAutowired.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/NAutowired/)
+[![NuGet](https://img.shields.io/nuget/v/NAutowired.svg?style=flat-square&logo=nuget)](https://www.nuget.org/packages/NAutowired)
+![GitHub repo size in bytes](https://img.shields.io/github/repo-size/FatTigerWang/NAutowired.svg?style=flat-square&logo=github)
+[![GitHub issues](https://img.shields.io/github/issues/FatTigerWang/NAutowired.svg?style=flat-square&logo=github)](https://github.com/FatTigerWang/NAutowired/issues)
+![GitHub top language](https://img.shields.io/github/languages/top/FatTigerWang/NAutowired.svg?style=flat-square&logo=github)
 
-ASP.NET CORE 通过属性注入依赖
+ASP.NET CORE 使用属性方式依赖注入
 
 * [English](./README_EN.md)
 
