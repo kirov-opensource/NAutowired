@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NAutowired.Core;
+using NAutowired.Core.Attributes;
 using System;
 using System.Reflection;
 
