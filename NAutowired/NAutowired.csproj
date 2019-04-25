@@ -8,15 +8,15 @@
     <RepositoryUrl>https://github.com/FatTigerWang/NAutowired</RepositoryUrl>
     <Copyright>Copyright © FatTiger 2019</Copyright>
     <NeutralLanguage></NeutralLanguage>
-    <Version>1.0.7</Version>
+    <Version>1.0.8</Version>
     <AssemblyVersion>1.0.7.0</AssemblyVersion>
-    <FileVersion>1.0.7.0</FileVersion>
-    <PackageReleaseNotes>Support circular dependencies</PackageReleaseNotes>
+    <FileVersion>1.0.8.0</FileVersion>
+    <PackageReleaseNotes>support circular dependencies</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.0" />
-    <PackageReference Include="NAutowired.Core" Version="1.0.2" />
+    <PackageReference Include="NAutowired.Core" Version="1.0.3" />
   </ItemGroup>
 
 </Project>
