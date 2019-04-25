@@ -25,7 +25,7 @@ namespace NAutowired.Attributes {
       if (filter == null) {
         throw new NotImplementedException($"{ServiceType.FullName} not implement IFilterMetadata");
       }
-      NAutowired.FieldDependencyInjection(serviceProvider, filter);
+      DependencyInjection.FieldDependencyInjection(serviceProvider, filter);
       return filter;
     }
   }
