@@ -16,7 +16,7 @@
     <tags>asp-net-core dependency-injection field-injection nautowired</tags>
     <dependencies>
       <dependency id="Microsoft.AspNetCore.Mvc.Core" version="2.2.0" />
-      <dependency id="NAutowired.Core" version="1.0.2" />
+      <dependency id="NAutowired.Core" version="1.0.3" />
     </dependencies>
   </metadata>
   <files>

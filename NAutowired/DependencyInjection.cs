@@ -5,7 +5,7 @@ using System;
 using System.Reflection;
 
 namespace NAutowired {
-  public static class NAutowired {
+  public static class DependencyInjection {
 
     /// <summary>
     /// 属性依赖注入
