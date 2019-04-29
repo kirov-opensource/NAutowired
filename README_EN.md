@@ -147,3 +147,4 @@ Use the `[Service] [Repository] [Component] [ServiceFilter]` attribute tag class
 ### Explanation
 * Since `NAutowired` does not replace the default DI mode of `ASP.NET CORE`, you can still inject dependencies through the constructor. `NAutowired` is fully compatible with the default DI mode of `ASP.NET CORE`.
 * Using `Field Injection` is an anti-pattern thing that violates the [Explicit dependencies](https://docs.microsoft.com/en-us/dotnet/standard/modern-web-apps-azure-architecture/architectural-principles#explicit-dependencies) principle of `ASP.NET CORE`.
+* Support circular dependencies
