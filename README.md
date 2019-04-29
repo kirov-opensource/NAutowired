@@ -149,3 +149,4 @@ ASP.NET CORE 使用属性方式依赖注入
 ### 说明
 * 由于`NAutowired`并没有替换`ASP.NET CORE`默认的DI方式, 所以您依然可以通过构造函数注入依赖, `NAutowired`与`ASP.NET CORE`默认的DI方式完全兼容.
 * 使用`Field Injection`是一个反模式的东西, 它违反了[显式依赖](https://docs.microsoft.com/zh-cn/dotnet/standard/modern-web-apps-azure-architecture/architectural-principles#explicit-dependencies)原则.
+* 支持循环依赖
