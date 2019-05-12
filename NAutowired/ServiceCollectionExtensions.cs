@@ -12,16 +12,28 @@ namespace NAutowired {
   public static class ServiceCollectionExtensions {
 
     private static List<DependencyInjectionModel> DependencyInjections { get; set; }
+    private static bool Flag = false;
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="services"></param>
-    /// <param name="assembly">assembly name</param>
-    public static void AddAutoDependencyInjection(this IServiceCollection services, string assembly) {
+    /// <param name="assemblies">assembly name</param>
+    public static void AddAutoDependencyInjection(this IServiceCollection services, IList<string> assemblies) {
+      if (Flag) {
+        throw new AddDependencyInjectionException($"Do not add dependencies repeatedly");
+      }
+      Flag = true;
+      if (assemblies == null || !assemblies.Any()) {
+        return;
+      }
+      var types = new List<Type>();
+      foreach (var assembly in assemblies) {
+        //拿到程序集下所有类
+        types.AddRange(Assembly.Load(assembly).GetTypes());
+      }
       DependencyInjections = new List<DependencyInjectionModel>();
-      //拿到程序集下所有类
-      var types = Assembly.Load(assembly).GetTypes();
+
       foreach (var type in types) {
         //循环attribute
         foreach (var attribute in type.GetCustomAttributes(false)) {
@@ -85,7 +97,8 @@ namespace NAutowired {
         //查看是否加入到了容器
         var dependencyInjection = DependencyInjections.FirstOrDefault(item => item.Type == injectionType);
         if (dependencyInjection == null) {
-          throw new UnableResolveDependencyException($"Unable to resolve dependency {injectionType.FullName}. Please use AddAutoDependencyInjection function to join the container");
+          //虽然未找到实例,但是可能通过IServiceCollection加入到了容器
+          continue;
         }
         var nextDependencyInjectionTreeModel = new DependencyInjectionTreeModel {
           DependencyInjection = dependencyInjection,
