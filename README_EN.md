@@ -9,29 +9,6 @@ ASP.NET CORE Field Injection Implement
 
 * [中文](./README.md)
 
-### Why to use
-`ASP.NET CORE` provided official DI framework,Need to inject through the constructor.
-```csharp
-  [Route("api/[controller]")]
-  [ApiController]
-  public class FooController : ControllerBase {
-
-    private readonly FooService fooService;
-
-    //Constructor
-    public FooController(FooService fooService) {
-      this.fooService = fooService;
-    }
-
-    [HttpGet]
-    public ActionResult<string> Get() {
-      return fooService == null ? "failure" : "success";
-    }
-  }
-```
-As the project grows larger, a Service class may need to inject dozens of dependencies, and the constructor is extremely bloated.
-`NAutowired` implements `Field Injection`, Can be injected directly through the properties of the class.
-
 ### How to use
 * [Sample](https://github.com/FatTigerWang/NAutowiredSample).
 * Introducing `NAutowired` and `NAutowired.Core` in the nuget.
