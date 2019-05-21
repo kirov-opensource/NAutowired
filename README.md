@@ -10,7 +10,7 @@ ASP.NET CORE 使用属性方式依赖注入
 
 ### 如何使用
 * [查看使用样例](https://github.com/FatTigerWang/NAutowiredSample)
-* nuget包管理器中引入`NAutowired`和`NAutowired.Core`
+* nuget包管理器中引入`NAutowired`和`NAutowired.Core`.
 * `NAutowired`包应该只在Web项目中被引用, `NAutowired.Core`包则在需要添加特性的项目中被引用.
 * 在`Startup.cs`中替换默认的`IControllerActivator`实现为`NAutowiredControllerActivator`.
 
