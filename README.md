@@ -108,7 +108,7 @@ ASP.NET CORE 使用属性方式依赖注入
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
       //services.AddScoped<FooService>();
       //使用自动注入
-      services.AddAutoDependencyInjection("NAutowiredSample");
+      services.AddAutoDependencyInjection(new List<string> { "NAutowiredSample" });
     }
   }
 ```
