@@ -10,7 +10,7 @@ ASP.NET CORE Field Injection Implement
 * [中文](./README.md)
 
 ### How to use
-* [Sample](https://github.com/FatTigerWang/NAutowiredSample).
+* [Sample](https://github.com/FatTigerWang/NAutowiredSample)
 * Introducing `NAutowired` and `NAutowired.Core` in the nuget.
 * The `NAutowired` package should only be referenced in the web project, and the `NAutowired.Core` package is referenced in projects that need to add features.
 * Replace the default `IControllerActivator` implementation with `NAutowiredControllerActivator` in `Startup.cs`.
