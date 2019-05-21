@@ -8,29 +8,6 @@ ASP.NET CORE 使用属性方式依赖注入
 
 * [English](./README_EN.md)
 
-### 为什么要使用
-`ASP.NET CORE`自带的DI框架，需要通过构造函数进行注入，例如  
-```csharp
-  [Route("api/[controller]")]
-  [ApiController]
-  public class FooController : ControllerBase {
-
-    private readonly FooService fooService;
-
-    //构造函数注入方式
-    public FooController(FooService fooService) {
-      this.fooService = fooService;
-    }
-
-    [HttpGet]
-    public ActionResult<string> Get() {
-      return fooService == null ? "failure" : "success";
-    }
-  }
-```
-这种方式当项目越来越大的情况下, 一个Service类中可能需要注入数十个依赖, 这时构造函数就显得极为臃肿.
-`NAutowired`实现了`Field Injection`, 能直接通过类的属性进行注入.
-
 ### 如何使用
 * [查看使用样例](https://github.com/FatTigerWang/NAutowiredSample)
 * nuget包管理器中引入`NAutowired`和`NAutowired.Core`
