@@ -106,7 +106,7 @@ ASP.NET CORE Field Injection Implement
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
       //services.AddScoped<FooService>();
       //Use automatic injection.
-      services.AddAutoDependencyInjection("NAutowiredSample");
+      services.AddAutoDependencyInjection(new List<string> { "NAutowiredSample" });
     }
   }
 ```
