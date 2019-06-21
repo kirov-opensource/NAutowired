@@ -8,8 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace NAutowired {
-  public static class ServiceCollectionExtensions {
+namespace NAutowired
+{
+  public static class ServiceCollectionExtensions
+  {
 
     private static List<DependencyInjectionModel> DependencyInjections { get; set; }
     private static bool Flag = false;
@@ -43,19 +45,22 @@ namespace NAutowired {
               Type = type
             });
             break;
-          } else if (attribute is RepositoryAttribute) {
+          }
+          else if (attribute is RepositoryAttribute) {
             DependencyInjections.Add(new DependencyInjectionModel {
               DependencyInjectionMode = ((RepositoryAttribute)attribute).DependencyInjectionMode,
               Type = type
             });
             break;
-          } else if (attribute is ComponentAttribute) {
+          }
+          else if (attribute is ComponentAttribute) {
             DependencyInjections.Add(new DependencyInjectionModel {
               DependencyInjectionMode = ((ComponentAttribute)attribute).DependencyInjectionMode,
               Type = type
             });
             break;
-          } else if (attribute is FilterAttribute) {
+          }
+          else if (attribute is FilterAttribute) {
             DependencyInjections.Add(new DependencyInjectionModel {
               DependencyInjectionMode = ((FilterAttribute)attribute).DependencyInjectionMode,
               Type = type
@@ -73,14 +78,47 @@ namespace NAutowired {
     /// </summary>
     /// <param name="dependencyInjectionTreeModel"></param>
     private static void AnalysisDependencyInjectionTree(DependencyInjectionTreeModel dependencyInjectionTreeModel) {
-      foreach (var propertity in dependencyInjectionTreeModel.DependencyInjection.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)) {
+      foreach (var propertyInfo in dependencyInjectionTreeModel.DependencyInjection.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)) {
         //判断当前属性是否具有DependencyInjectionAttribute特性
-        var customeAttribute = propertity.GetCustomAttribute(typeof(AutowiredAttribute), false);
+        var customeAttribute = propertyInfo.GetCustomAttribute(typeof(AutowiredAttribute), false);
         if (customeAttribute == null) {
           continue;
         }
         //等待注入的类型
-        var injectionType = ((AutowiredAttribute)customeAttribute).RealType ?? propertity.PropertyType;
+        var injectionType = ((AutowiredAttribute)customeAttribute).RealType ?? propertyInfo.PropertyType;
+        //自己依赖自己
+        if (injectionType == dependencyInjectionTreeModel.DependencyInjection.Type) {
+          throw new UnableResolveDependencyException($"Unable to resolve dependency {injectionType.FullName}.");
+        }
+        //从父树查找是否已经有依赖
+        var parentInjectionTreeModel = GetDependencyInjectionTree(dependencyInjectionTreeModel.ParentDependencyInjectionTree, injectionType);
+        if (parentInjectionTreeModel != null) {
+          //查找父树的依赖是否是Transient模式,如是则此循环依赖无法支持
+          if (parentInjectionTreeModel.DependencyInjection.DependencyInjectionMode == DependencyInjectionModeEnum.Transient) {
+            throw new UnableResolveDependencyException($"Unable to resolve dependency {injectionType.FullName}. {parentInjectionTreeModel.DependencyInjection.Type.FullName} DependencyInjectionMode should not be Transient when using circular dependencies");
+          }
+          continue;
+        }
+        //查看是否加入到了容器
+        var dependencyInjection = DependencyInjections.FirstOrDefault(item => item.Type == injectionType);
+        if (dependencyInjection == null) {
+          //虽然未找到实例,但是可能通过IServiceCollection加入到了容器
+          continue;
+        }
+        var nextDependencyInjectionTreeModel = new DependencyInjectionTreeModel {
+          DependencyInjection = dependencyInjection,
+          ParentDependencyInjectionTree = dependencyInjectionTreeModel
+        };
+        AnalysisDependencyInjectionTree(nextDependencyInjectionTreeModel);
+      }
+      foreach (var fieldInfo in dependencyInjectionTreeModel.DependencyInjection.Type.GetFields(BindingFlags.Public | BindingFlags.NonPublic)) {
+        //判断当前属性是否具有DependencyInjectionAttribute特性
+        var customeAttribute = fieldInfo.GetCustomAttribute(typeof(AutowiredAttribute), false);
+        if (customeAttribute == null) {
+          continue;
+        }
+        //等待注入的类型
+        var injectionType = ((AutowiredAttribute)customeAttribute).RealType ?? fieldInfo.FieldType;
         //自己依赖自己
         if (injectionType == dependencyInjectionTreeModel.DependencyInjection.Type) {
           throw new UnableResolveDependencyException($"Unable to resolve dependency {injectionType.FullName}.");
