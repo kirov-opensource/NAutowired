@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAutowired", "NAutowired\NA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAutowired.Core", "NAutowired.Core\NAutowired.Core.csproj", "{61F5D8F8-FF96-4BCD-91B6-68DE770DD580}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAutowiredSample", "NAutowiredSample\NAutowiredSample.csproj", "{600984EC-4B95-4BF2-B20E-4D776DFAB70A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{61F5D8F8-FF96-4BCD-91B6-68DE770DD580}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61F5D8F8-FF96-4BCD-91B6-68DE770DD580}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61F5D8F8-FF96-4BCD-91B6-68DE770DD580}.Release|Any CPU.Build.0 = Release|Any CPU
+		{600984EC-4B95-4BF2-B20E-4D776DFAB70A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{600984EC-4B95-4BF2-B20E-4D776DFAB70A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{600984EC-4B95-4BF2-B20E-4D776DFAB70A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{600984EC-4B95-4BF2-B20E-4D776DFAB70A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

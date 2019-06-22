@@ -11,12 +11,12 @@
     <iconUrl>https://github.com/FatTigerWang/NAutowired</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>无</releaseNotes>
+    <releaseNotes>Support Field and Property</releaseNotes>
     <copyright>Copyright © FatTiger 2019</copyright>
-    <tags>asp-net-core dependency-injection field-injection nautowired</tags>
+    <tags>asp-net-core dependency-injection field-injection nautowired autowired</tags>
     <dependencies>
       <dependency id="Microsoft.AspNetCore.Mvc.Core" version="2.2.0" />
-      <dependency id="NAutowired.Core" version="1.0.3" />
+      <dependency id="NAutowired.Core" version="1.0.4" />
     </dependencies>
   </metadata>
   <files>

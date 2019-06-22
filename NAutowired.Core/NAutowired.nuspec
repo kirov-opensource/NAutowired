@@ -11,9 +11,9 @@
     <iconUrl>https://github.com/FatTigerWang/NAutowired</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>无</releaseNotes>
+    <releaseNotes>Support Field and Property</releaseNotes>
     <copyright>Copyright © FatTiger 2019</copyright>
-    <tags>nautowired nautowired-core</tags>
+    <tags>nautowired nautowired-core autowired</tags>
     <dependencies>
       <dependency id="NETStandard.Library" version="2.0.3" />
     </dependencies>
