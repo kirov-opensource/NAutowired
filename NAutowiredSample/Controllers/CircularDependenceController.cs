@@ -8,16 +8,16 @@ namespace NAutowiredSample.Controllers {
   public class CircularDependenceController : ControllerBase {
 
     [Autowired]
-    private CircularDependenceAService CyclicDependenceAService { get; set; }
+    private CircularDependenceAService cyclicDependenceAService;
 
     [Autowired]
     private CircularDependenceBService CyclicDependenceBService { get; set; }
 
     [HttpGet("")]
     public IActionResult Get() {
-      System.Console.WriteLine($"{CyclicDependenceAService.ToString()} in controller");
+      System.Console.WriteLine($"{cyclicDependenceAService.ToString()} in controller");
       System.Console.WriteLine($"{CyclicDependenceBService.ToString()} in controller");
-      return Ok($"{CyclicDependenceAService.GetCyclicDependenceA()}-{CyclicDependenceBService.GetCyclicDependenceB()}");
+      return Ok($"{cyclicDependenceAService.GetCyclicDependenceA()}-{CyclicDependenceBService.GetCyclicDependenceB()}");
     }
   }
 }
