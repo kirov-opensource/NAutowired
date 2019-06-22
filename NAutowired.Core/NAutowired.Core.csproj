@@ -8,9 +8,10 @@
     <RepositoryUrl>https://github.com/FatTigerWang/NAutowired</RepositoryUrl>
     <Copyright>Copyright © FatTiger 2019</Copyright>
     <NeutralLanguage></NeutralLanguage>
-    <Version>1.0.3</Version>
-    <AssemblyVersion>1.0.3.0</AssemblyVersion>
-    <FileVersion>1.0.3.0</FileVersion>
+    <Version>1.0.4</Version>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
+    <FileVersion>1.0.4.0</FileVersion>
+    <PackageReleaseNotes>Support Field and Property</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>

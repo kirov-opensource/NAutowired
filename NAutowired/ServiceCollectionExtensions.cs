@@ -3,6 +3,7 @@ using NAutowired.Core;
 using NAutowired.Core.Attributes;
 using NAutowired.Core.Models;
 using NAutowired.Exceptions;
+using NAutowired.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,14 +74,18 @@ namespace NAutowired {
     /// </summary>
     /// <param name="dependencyInjectionTreeModel"></param>
     private static void AnalysisDependencyInjectionTree(DependencyInjectionTreeModel dependencyInjectionTreeModel) {
-      foreach (var propertity in dependencyInjectionTreeModel.DependencyInjection.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)) {
+      foreach (var memberInfo in dependencyInjectionTreeModel.DependencyInjection.Type.GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)) {
+        //非属性和字段
+        if (memberInfo.MemberType != MemberTypes.Field && memberInfo.MemberType != MemberTypes.Property) {
+          continue;
+        }
         //判断当前属性是否具有DependencyInjectionAttribute特性
-        var customeAttribute = propertity.GetCustomAttribute(typeof(AutowiredAttribute), false);
+        var customeAttribute = memberInfo.GetCustomAttribute(typeof(AutowiredAttribute), false);
         if (customeAttribute == null) {
           continue;
         }
         //等待注入的类型
-        var injectionType = ((AutowiredAttribute)customeAttribute).RealType ?? propertity.PropertyType;
+        var injectionType = ((AutowiredAttribute)customeAttribute).RealType ?? memberInfo.GetRealType();
         //自己依赖自己
         if (injectionType == dependencyInjectionTreeModel.DependencyInjection.Type) {
           throw new UnableResolveDependencyException($"Unable to resolve dependency {injectionType.FullName}.");

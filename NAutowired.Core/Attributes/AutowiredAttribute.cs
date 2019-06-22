@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NAutowired.Core.Attributes {
-  [AttributeUsage(AttributeTargets.Property)]
+  [AttributeUsage(AttributeTargets.Property | AttributeTargets.Property)]
   public class AutowiredAttribute : Attribute {
 
     public Type RealType {

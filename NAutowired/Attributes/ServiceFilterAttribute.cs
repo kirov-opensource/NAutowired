@@ -4,6 +4,7 @@ using NAutowired.Exceptions;
 using System;
 
 namespace NAutowired.Attributes {
+  [AttributeUsage(AttributeTargets.Class)]
   public class ServiceFilterAttribute : Attribute, IFilterFactory, IOrderedFilter {
 
     public Type ServiceType { get; private set; }

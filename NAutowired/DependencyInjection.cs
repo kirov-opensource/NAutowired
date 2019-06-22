@@ -1,6 +1,7 @@
 ﻿using NAutowired.Core.Attributes;
 using NAutowired.Core.Models;
 using NAutowired.Exceptions;
+using NAutowired.Extensions;
 using System;
 using System.Reflection;
 
@@ -23,27 +24,31 @@ namespace NAutowired {
     /// <param name="serviceProvider"></param>
     /// <param name="instanceScopeModel"></param>
     private static void AnalysisDependencyInjection(IServiceProvider serviceProvider, InstanceScopeModel instanceScopeModel) {
-      foreach (var propertity in instanceScopeModel.Instance.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)) {
+      foreach (var memberInfo in instanceScopeModel.Instance.GetType().GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)) {
+        //非属性和字段
+        if (memberInfo.MemberType != MemberTypes.Field && memberInfo.MemberType != MemberTypes.Property) {
+          continue;
+        }
         //判断当前属性是否具有DependencyInjectionAttribute特性
-        var customeAttribute = propertity.GetCustomAttribute(typeof(AutowiredAttribute), false);
+        var customeAttribute = memberInfo.GetCustomAttribute(typeof(AutowiredAttribute), false);
         if (customeAttribute == null) {
           continue;
         }
 
-        var type = ((AutowiredAttribute)customeAttribute).RealType ?? propertity.PropertyType;
+        var type = ((AutowiredAttribute)customeAttribute).RealType ?? memberInfo.GetRealType();
         var value = GetInstance(instanceScopeModel, type);
         //从parent instance 还原
         if (value != null) {
-          propertity.SetValue(instanceScopeModel.Instance, value);
+          memberInfo.SetValue(instanceScopeModel.Instance, value);
           continue;
         }
         //从容器拿到Instance
         value = serviceProvider.GetService(type);
         if (value == null) {
-          throw new UnableResolveDependencyException($"Unable to resolve dependency {propertity.PropertyType.FullName}");
+          throw new UnableResolveDependencyException($"Unable to resolve dependency {memberInfo.GetRealType().FullName}");
         }
         //将Instance赋值给属性
-        propertity.SetValue(instanceScopeModel.Instance, value);
+        memberInfo.SetValue(instanceScopeModel.Instance, value);
         //构建下一个节点
         var nextInstanceScopeModel = new InstanceScopeModel {
           Instance = value,
