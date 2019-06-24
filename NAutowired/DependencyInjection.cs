@@ -14,8 +14,8 @@ namespace NAutowired {
     /// <typeparam name="T"></typeparam>
     /// <param name="serviceProvider"></param>
     /// <param name="typeInstance"></param>
-    public static void FieldDependencyInjection<T>(IServiceProvider serviceProvider, T typeInstance) {
-      AnalysisDependencyInjection(serviceProvider, new InstanceScopeModel { Instance = typeInstance });
+    public static void Resolve<T>(IServiceProvider serviceProvider, T typeInstance) {
+      ResolveDependencyTree(serviceProvider, new InstanceScopeModel { Instance = typeInstance });
     }
 
     /// <summary>
@@ -23,7 +23,7 @@ namespace NAutowired {
     /// </summary>
     /// <param name="serviceProvider"></param>
     /// <param name="instanceScopeModel"></param>
-    private static void AnalysisDependencyInjection(IServiceProvider serviceProvider, InstanceScopeModel instanceScopeModel) {
+    private static void ResolveDependencyTree(IServiceProvider serviceProvider, InstanceScopeModel instanceScopeModel) {
       foreach (var memberInfo in instanceScopeModel.Instance.GetType().GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)) {
         //非属性和字段
         if (memberInfo.MemberType != MemberTypes.Field && memberInfo.MemberType != MemberTypes.Property) {
@@ -55,7 +55,7 @@ namespace NAutowired {
           ParentInstanceScope = instanceScopeModel
         };
         //递归注入的属性是否有其它依赖
-        AnalysisDependencyInjection(serviceProvider, nextInstanceScopeModel);
+        ResolveDependencyTree(serviceProvider, nextInstanceScopeModel);
       }
     }
 
