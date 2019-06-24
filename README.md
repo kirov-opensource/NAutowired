@@ -43,11 +43,11 @@ ASP.NET CORE 使用属性方式依赖注入
 
     //使用Autowired Attribute注入实例
     [Autowired]
-    private FooService FooService { get; set; }
+    private readonly FooService fooService;
 
     [HttpGet]
     public ActionResult<string> Get() {
-      return FooService == null ? "failure" : "success";
+      return fooService == null ? "failure" : "success";
     }
   }
 ```
@@ -72,10 +72,10 @@ ASP.NET CORE 使用属性方式依赖注入
 ```csharp
   public class AuthorizationFilter : IAuthorizationFilter {
     [Autowired]
-    private FooService FooService { get; set; }
+    private readonly FooService fooService;
 
     public void OnAuthorization(AuthorizationFilterContext context) {
-      System.Console.WriteLine($"{FooService.ToString()} in filter");
+      System.Console.WriteLine($"{fooService.ToString()} in filter");
       return;
     }
   }
@@ -92,11 +92,11 @@ ASP.NET CORE 使用属性方式依赖注入
 
     //注入特定的实例
     [Autowired(typeof(FooService))]
-    private IFooService FooService { get; set; }
+    private readonly IFooService fooService;
 
     [HttpGet]
     public ActionResult<string> Get() {
-      return FooService == null ? "failure" : "success";
+      return fooService == null ? "failure" : "success";
     }
   }
 ```
