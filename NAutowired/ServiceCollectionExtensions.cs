@@ -12,7 +12,7 @@ using System.Reflection;
 namespace NAutowired {
   public static class ServiceCollectionExtensions {
 
-    private static List<DependencyInjectionModel> DependencyInjections { get; set; }
+    private static List<DependencyModel> container { get; set; }
     private static bool Flag = false;
 
     /// <summary>
@@ -33,31 +33,30 @@ namespace NAutowired {
         //拿到程序集下所有类
         types.AddRange(Assembly.Load(assembly).GetTypes());
       }
-      DependencyInjections = new List<DependencyInjectionModel>();
-
+      container = new List<DependencyModel>();
       foreach (var type in types) {
         //循环attribute
         foreach (var attribute in type.GetCustomAttributes(false)) {
           if (attribute is ServiceAttribute) {
-            DependencyInjections.Add(new DependencyInjectionModel {
+            container.Add(new DependencyModel {
               DependencyInjectionMode = ((ServiceAttribute)attribute).DependencyInjectionMode,
               Type = type
             });
             break;
           } else if (attribute is RepositoryAttribute) {
-            DependencyInjections.Add(new DependencyInjectionModel {
+            container.Add(new DependencyModel {
               DependencyInjectionMode = ((RepositoryAttribute)attribute).DependencyInjectionMode,
               Type = type
             });
             break;
           } else if (attribute is ComponentAttribute) {
-            DependencyInjections.Add(new DependencyInjectionModel {
+            container.Add(new DependencyModel {
               DependencyInjectionMode = ((ComponentAttribute)attribute).DependencyInjectionMode,
               Type = type
             });
             break;
           } else if (attribute is FilterAttribute) {
-            DependencyInjections.Add(new DependencyInjectionModel {
+            container.Add(new DependencyModel {
               DependencyInjectionMode = ((FilterAttribute)attribute).DependencyInjectionMode,
               Type = type
             });
@@ -72,9 +71,9 @@ namespace NAutowired {
     /// <summary>
     /// 分析依赖树
     /// </summary>
-    /// <param name="dependencyInjectionTreeModel"></param>
-    private static void AnalysisDependencyInjectionTree(DependencyInjectionTreeModel dependencyInjectionTreeModel) {
-      foreach (var memberInfo in dependencyInjectionTreeModel.DependencyInjection.Type.GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)) {
+    /// <param name="dependencyTreeModel"></param>
+    private static void AnalysisDependencyTree(DependencyTreeModel dependencyTreeModel) {
+      foreach (var memberInfo in dependencyTreeModel.Dependency.Type.GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)) {
         //非属性和字段
         if (memberInfo.MemberType != MemberTypes.Field && memberInfo.MemberType != MemberTypes.Property) {
           continue;
@@ -87,51 +86,50 @@ namespace NAutowired {
         //等待注入的类型
         var injectionType = ((AutowiredAttribute)customeAttribute).RealType ?? memberInfo.GetRealType();
         //自己依赖自己
-        if (injectionType == dependencyInjectionTreeModel.DependencyInjection.Type) {
+        if (injectionType == dependencyTreeModel.Dependency.Type) {
           throw new UnableResolveDependencyException($"Unable to resolve dependency {injectionType.FullName}.");
         }
         //从父树查找是否已经有依赖
-        var parentInjectionTreeModel = GetDependencyInjectionTree(dependencyInjectionTreeModel.ParentDependencyInjectionTree, injectionType);
-        if (parentInjectionTreeModel != null) {
+        var parentDependencyTreeModel = GetDependencyTree(dependencyTreeModel.ParentDependencyTree, injectionType);
+        if (parentDependencyTreeModel != null) {
           //查找父树的依赖是否是Transient模式,如是则此循环依赖无法支持
-          if (parentInjectionTreeModel.DependencyInjection.DependencyInjectionMode == DependencyInjectionModeEnum.Transient) {
-            throw new UnableResolveDependencyException($"Unable to resolve dependency {injectionType.FullName}. {parentInjectionTreeModel.DependencyInjection.Type.FullName} DependencyInjectionMode should not be Transient when using circular dependencies");
+          if (parentDependencyTreeModel.Dependency.DependencyInjectionMode == DependencyInjectionModeEnum.Transient) {
+            throw new UnableResolveDependencyException($"Unable to resolve dependency {injectionType.FullName}. {parentDependencyTreeModel.Dependency.Type.FullName} DependencyInjectionMode should not be Transient when using circular dependencies");
           }
           continue;
         }
         //查看是否加入到了容器
-        var dependencyInjection = DependencyInjections.FirstOrDefault(item => item.Type == injectionType);
-        if (dependencyInjection == null) {
+        var dependency = container.FirstOrDefault(item => item.Type == injectionType);
+        if (dependency == null) {
           //虽然未找到实例,但是可能通过IServiceCollection加入到了容器
           continue;
         }
-        var nextDependencyInjectionTreeModel = new DependencyInjectionTreeModel {
-          DependencyInjection = dependencyInjection,
-          ParentDependencyInjectionTree = dependencyInjectionTreeModel
+        var nextDependencyInjectionTreeModel = new DependencyTreeModel {
+          Dependency = dependency,
+          ParentDependencyTree = dependencyTreeModel
         };
-        AnalysisDependencyInjectionTree(nextDependencyInjectionTreeModel);
+        AnalysisDependencyTree(nextDependencyInjectionTreeModel);
       }
     }
 
     /// <summary>
     /// 递归查找父节点
     /// </summary>
-    /// <param name="dependencyInjectionTreeModel"></param>
+    /// <param name="dependencyTreeModel"></param>
     /// <param name="type"></param>
     /// <returns></returns>
-    private static DependencyInjectionTreeModel GetDependencyInjectionTree(DependencyInjectionTreeModel dependencyInjectionTreeModel, Type type) {
-      if (dependencyInjectionTreeModel == null) { return null; }
-      if (dependencyInjectionTreeModel.DependencyInjection.Type == type) {
-        return dependencyInjectionTreeModel;
+    private static DependencyTreeModel GetDependencyTree(DependencyTreeModel dependencyTreeModel, Type type) {
+      if (dependencyTreeModel == null) { return null; }
+      if (dependencyTreeModel.Dependency.Type == type) {
+        return dependencyTreeModel;
       }
-      if (dependencyInjectionTreeModel.ParentDependencyInjectionTree == null) { return null; }
-      return GetDependencyInjectionTree(dependencyInjectionTreeModel.ParentDependencyInjectionTree, type);
+      if (dependencyTreeModel.ParentDependencyTree == null) { return null; }
+      return GetDependencyTree(dependencyTreeModel.ParentDependencyTree, type);
     }
 
-
     private static void AddDependencyInjection(IServiceCollection services) {
-      foreach (var dependencyInjection in DependencyInjections) {
-        AnalysisDependencyInjectionTree(new DependencyInjectionTreeModel { DependencyInjection = dependencyInjection });
+      foreach (var dependencyInjection in container) {
+        AnalysisDependencyTree(new DependencyTreeModel { Dependency = dependencyInjection });
         switch (dependencyInjection.DependencyInjectionMode) {
           case DependencyInjectionModeEnum.Transient:
             services.AddTransient(dependencyInjection.Type);

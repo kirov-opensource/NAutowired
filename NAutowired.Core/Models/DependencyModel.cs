@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NAutowired.Core.Models {
-  public class DependencyInjectionModel {
+  public class DependencyModel {
 
     /// <summary>
     /// 类型
