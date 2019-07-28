@@ -4,15 +4,15 @@ namespace NAutowired.Core.Attributes {
 
   [AttributeUsage(AttributeTargets.Class)]
   public class FilterAttribute : Attribute {
-    public DependencyInjectionModeEnum DependencyInjectionMode {
+    public Lifetime DependencyInjectionMode {
       get;
-    } = DependencyInjectionModeEnum.Scoped;
+    } = Lifetime.Scoped;
 
     public FilterAttribute() {
     }
 
 
-    public FilterAttribute(DependencyInjectionModeEnum dependencyInjectionMode) {
+    public FilterAttribute(Lifetime dependencyInjectionMode) {
       this.DependencyInjectionMode = dependencyInjectionMode;
     }
   }

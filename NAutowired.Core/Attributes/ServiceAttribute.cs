@@ -3,14 +3,14 @@
 namespace NAutowired.Core.Attributes {
   [AttributeUsage(AttributeTargets.Class)]
   public class ServiceAttribute : Attribute {
-    public DependencyInjectionModeEnum DependencyInjectionMode {
+    public Lifetime DependencyInjectionMode {
       get;
-    } = DependencyInjectionModeEnum.Scoped;
+    } = Lifetime.Scoped;
 
     public ServiceAttribute() {
     }
 
-    public ServiceAttribute(DependencyInjectionModeEnum dependencyInjectionMode) {
+    public ServiceAttribute(Lifetime dependencyInjectionMode) {
       this.DependencyInjectionMode = dependencyInjectionMode;
     }
   }

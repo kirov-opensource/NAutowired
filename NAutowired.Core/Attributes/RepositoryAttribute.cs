@@ -3,15 +3,15 @@
 namespace NAutowired.Core.Attributes {
   [AttributeUsage(AttributeTargets.Class)]
   public class RepositoryAttribute : Attribute {
-    public DependencyInjectionModeEnum DependencyInjectionMode {
+    public Lifetime DependencyInjectionMode {
       get;
-    } = DependencyInjectionModeEnum.Scoped;
+    } = Lifetime.Scoped;
 
     public RepositoryAttribute() {
     }
 
 
-    public RepositoryAttribute(DependencyInjectionModeEnum dependencyInjectionMode) {
+    public RepositoryAttribute(Lifetime dependencyInjectionMode) {
       this.DependencyInjectionMode = dependencyInjectionMode;
     }
   }

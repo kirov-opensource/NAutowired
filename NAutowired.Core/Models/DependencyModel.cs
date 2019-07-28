@@ -9,8 +9,8 @@ namespace NAutowired.Core.Models {
     public Type Type { get; set; }
 
     /// <summary>
-    /// 注入模式
+    /// 生命周期
     /// </summary>
-    public DependencyInjectionModeEnum DependencyInjectionMode { get; set; }
+    public Lifetime Lifetime { get; set; }
   }
 }

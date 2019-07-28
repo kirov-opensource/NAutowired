@@ -4,15 +4,15 @@ namespace NAutowired.Core.Attributes {
   [AttributeUsage(AttributeTargets.Class)]
   public class ComponentAttribute : Attribute {
 
-    public DependencyInjectionModeEnum DependencyInjectionMode {
+    public Lifetime DependencyInjectionMode {
       get;
-    } = DependencyInjectionModeEnum.Scoped;
+    } = Lifetime.Scoped;
 
     public ComponentAttribute() {
     }
 
 
-    public ComponentAttribute(DependencyInjectionModeEnum dependencyInjectionMode) {
+    public ComponentAttribute(Lifetime dependencyInjectionMode) {
       this.DependencyInjectionMode = dependencyInjectionMode;
     }
 

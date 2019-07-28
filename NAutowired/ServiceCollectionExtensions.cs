@@ -39,25 +39,25 @@ namespace NAutowired {
         foreach (var attribute in type.GetCustomAttributes(false)) {
           if (attribute is ServiceAttribute) {
             container.Add(new DependencyModel {
-              DependencyInjectionMode = ((ServiceAttribute)attribute).DependencyInjectionMode,
+              Lifetime = ((ServiceAttribute)attribute).DependencyInjectionMode,
               Type = type
             });
             break;
           } else if (attribute is RepositoryAttribute) {
             container.Add(new DependencyModel {
-              DependencyInjectionMode = ((RepositoryAttribute)attribute).DependencyInjectionMode,
+              Lifetime = ((RepositoryAttribute)attribute).DependencyInjectionMode,
               Type = type
             });
             break;
           } else if (attribute is ComponentAttribute) {
             container.Add(new DependencyModel {
-              DependencyInjectionMode = ((ComponentAttribute)attribute).DependencyInjectionMode,
+              Lifetime = ((ComponentAttribute)attribute).DependencyInjectionMode,
               Type = type
             });
             break;
           } else if (attribute is FilterAttribute) {
             container.Add(new DependencyModel {
-              DependencyInjectionMode = ((FilterAttribute)attribute).DependencyInjectionMode,
+              Lifetime = ((FilterAttribute)attribute).DependencyInjectionMode,
               Type = type
             });
             break;
@@ -73,6 +73,7 @@ namespace NAutowired {
     /// </summary>
     /// <param name="dependencyTreeModel"></param>
     private static void AnalysisDependencyTree(DependencyTreeModel dependencyTreeModel) {
+      dependencyTreeModel.Dependency.Type.BaseType
       foreach (var memberInfo in dependencyTreeModel.Dependency.Type.GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)) {
         //非属性和字段
         if (memberInfo.MemberType != MemberTypes.Field && memberInfo.MemberType != MemberTypes.Property) {
@@ -93,7 +94,7 @@ namespace NAutowired {
         var parentDependencyTreeModel = GetDependencyTree(dependencyTreeModel.ParentDependencyTree, injectionType);
         if (parentDependencyTreeModel != null) {
           //查找父树的依赖是否是Transient模式,如是则此循环依赖无法支持
-          if (parentDependencyTreeModel.Dependency.DependencyInjectionMode == DependencyInjectionModeEnum.Transient) {
+          if (parentDependencyTreeModel.Dependency.Lifetime == Lifetime.Transient) {
             throw new UnableResolveDependencyException($"Unable to resolve dependency {injectionType.FullName}. {parentDependencyTreeModel.Dependency.Type.FullName} DependencyInjectionMode should not be Transient when using circular dependencies");
           }
           continue;
@@ -130,14 +131,14 @@ namespace NAutowired {
     private static void AddDependencyInjection(IServiceCollection services) {
       foreach (var dependencyInjection in container) {
         AnalysisDependencyTree(new DependencyTreeModel { Dependency = dependencyInjection });
-        switch (dependencyInjection.DependencyInjectionMode) {
-          case DependencyInjectionModeEnum.Transient:
+        switch (dependencyInjection.Lifetime) {
+          case Lifetime.Transient:
             services.AddTransient(dependencyInjection.Type);
             break;
-          case DependencyInjectionModeEnum.Scoped:
+          case Lifetime.Scoped:
             services.AddScoped(dependencyInjection.Type);
             break;
-          case DependencyInjectionModeEnum.Singleton:
+          case Lifetime.Singleton:
             services.AddSingleton(dependencyInjection.Type);
             break;
         }
