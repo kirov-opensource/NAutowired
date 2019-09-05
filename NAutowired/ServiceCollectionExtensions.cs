@@ -73,7 +73,6 @@ namespace NAutowired {
     /// </summary>
     /// <param name="dependencyTreeModel"></param>
     private static void AnalysisDependencyTree(DependencyTreeModel dependencyTreeModel) {
-      dependencyTreeModel.Dependency.Type.BaseType
       foreach (var memberInfo in dependencyTreeModel.Dependency.Type.GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)) {
         //非属性和字段
         if (memberInfo.MemberType != MemberTypes.Field && memberInfo.MemberType != MemberTypes.Property) {
