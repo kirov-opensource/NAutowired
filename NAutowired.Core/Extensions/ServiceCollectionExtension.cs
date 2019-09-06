@@ -20,7 +20,7 @@ namespace NAutowired.Core.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <param name="assemblies">assembly name</param>
-        public static void AutoRegisterDependency(this IServiceCollection services, IList<string> assemblies)
+        public static void AutoRegisterDependency(this IServiceCollection services, IEnumerable<string> assemblies)
         {
             if (Flag)
             {

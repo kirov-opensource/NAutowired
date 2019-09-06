@@ -2,6 +2,6 @@
 {
     public interface IConsoleHost
     {
-        void Run();
+        void Run<TStartup>() where TStartup : Startup, new();
     }
 }

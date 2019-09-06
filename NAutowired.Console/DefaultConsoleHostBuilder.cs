@@ -1,5 +1,5 @@
-﻿using NAutowired.Core;
-using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using NAutowired.Core;
 
 namespace NAutowired.Console
 {
@@ -7,19 +7,17 @@ namespace NAutowired.Console
     {
         private string[] args;
 
-        private Type startupType;
+        private IServiceCollection serviceCollection;
 
-        public DefaultConsoleHostBuilder() { }
-
-        public DefaultConsoleHostBuilder(string[] args)
+        public DefaultConsoleHostBuilder(IServiceCollection serviceCollection)
         {
-            this.args = args;
+            this.serviceCollection = serviceCollection;
         }
 
-        public DefaultConsoleHostBuilder(Type startupType, string[] args)
+        public DefaultConsoleHostBuilder(IServiceCollection serviceCollection, string[] args)
         {
             this.args = args;
-            this.startupType = startupType;
+            this.serviceCollection = serviceCollection;
         }
 
         /// <summary>
@@ -28,7 +26,7 @@ namespace NAutowired.Console
         /// <returns></returns>
         public IConsoleHost Build()
         {
-            return new DefaultConsoleHost(startupType, args);
+            return new DefaultConsoleHost(serviceCollection, args);
         }
 
     }

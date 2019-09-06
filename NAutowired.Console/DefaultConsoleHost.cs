@@ -1,23 +1,25 @@
-﻿using NAutowired.Core;
-using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using NAutowired.Core;
 
 namespace NAutowired.Console
 {
     public class DefaultConsoleHost : IConsoleHost
     {
-        private Type startupType;
         private string[] args;
-        public DefaultConsoleHost(Type startupType, string[] args)
+        private IServiceCollection serviceCollection;
+
+        public DefaultConsoleHost(IServiceCollection serviceCollection, string[] args)
         {
-            this.startupType = startupType;
+            this.serviceCollection = serviceCollection;
             this.args = args;
         }
 
 
-        public void Run()
+        public void Run<TStartup>() where TStartup : Startup, new()
         {
-            //startupType.g
-            throw new NotImplementedException();
+            var instance = new TStartup();
+            DependencyInjection.Resolve(serviceCollection.BuildServiceProvider(), instance);
+            instance.Run(args);
         }
     }
 }
