@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>Net Core Console Field Injection Implement</Description>
+    <PackageProjectUrl>https://github.com/kirov-opensource/NAutowired</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/kirov-opensource/NAutowired</RepositoryUrl>
+    <Copyright>Copyright © kirov-opensource 2019</Copyright>
+    <PackageReleaseNotes>Support Console And Unit Test</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

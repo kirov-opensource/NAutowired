@@ -4,19 +4,19 @@
     <id>$id$</id>
     <version>$version$</version>
     <title>$title$</title>
-    <authors>FatTiger</authors>
-    <owners>FatTiger</owners>
+    <authors>kirov-opensource</authors>
+    <owners>kirov-opensource</owners>
     <license type="file">LICENSE.txt</license>
-    <projectUrl>https://github.com/FatTigerWang/NAutowired</projectUrl>
-    <iconUrl>https://github.com/FatTigerWang/NAutowired</iconUrl>
+    <projectUrl>https://github.com/kirov-opensource/NAutowired</projectUrl>
+    <iconUrl>https://github.com/kirov-opensource/NAutowired</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Support Field and Property</releaseNotes>
-    <copyright>Copyright © FatTiger 2019</copyright>
+    <releaseNotes>Support Console And Unit Test</releaseNotes>
+    <copyright>Copyright © kirov-opensource 2019</copyright>
     <tags>asp-net-core dependency-injection field-injection nautowired autowired</tags>
     <dependencies>
       <dependency id="Microsoft.AspNetCore.Mvc.Core" version="2.2.0" />
-      <dependency id="NAutowired.Core" version="1.0.6" />
+      <dependency id="NAutowired.Core" version="1.1.0" />
     </dependencies>
   </metadata>
   <files>

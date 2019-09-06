@@ -13,10 +13,11 @@
     <description>$description$</description>
     <releaseNotes>Support Console And Unit Test</releaseNotes>
     <copyright>Copyright © kirov-opensource 2019</copyright>
-    <tags>nautowired nautowired-core autowired</tags>
+    <tags>console net-core dependency-injection field-injection nautowired autowired</tags>
     <dependencies>
       <dependency id="NETStandard.Library" version="2.0.3" />
       <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.2.0" />
+      <dependency id="NAutowired.Core" version="1.1.0" />
     </dependencies>
   </metadata>
   <files>
