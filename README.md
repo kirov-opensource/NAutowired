@@ -5,7 +5,7 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/kirov-opensource/NAutowired.svg?style=flat-square&logo=github)
 
 ASP.NET CORE 通过属性注入依赖
-* [English](./README_EN.md)
+*  [English](./README_EN.md)
 
 ### 如何使用
 * nuget包管理器中引入`NAutowired`和`NAutowired.Core`.
