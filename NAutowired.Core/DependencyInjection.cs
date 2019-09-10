@@ -20,7 +20,6 @@ namespace NAutowired.Core
         public static void Resolve<T>(IServiceProvider serviceProvider, T typeInstance)
         {
             ResolveDependencyTree(serviceProvider, new InstanceScopeModel { Instance = typeInstance });
-            typeof(T).InvokeConstructor(typeInstance);
         }
 
         /// <summary>
