@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAutowired.Console", "NAuto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAutowiredConsoleSample", "NAutowiredConsoleSample\NAutowiredConsoleSample.csproj", "{5C87895B-F5D3-4A37-9E05-8A47C550C755}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NAutowired.Console.Test", "NAutowired.Console.Test\NAutowired.Console.Test.csproj", "{02AB88B7-7972-474A-A9D2-1A03E478B1D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAutowired.Console.Test", "NAutowired.Console.Test\NAutowired.Console.Test.csproj", "{02AB88B7-7972-474A-A9D2-1A03E478B1D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

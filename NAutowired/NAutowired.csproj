@@ -8,7 +8,7 @@
     <RepositoryUrl>https://github.com/kirov-opensource/NAutowired</RepositoryUrl>
     <Copyright>Copyright © kirov-opensource 2019</Copyright>
     <NeutralLanguage></NeutralLanguage>
-    <Version>1.2.0-alpha.3</Version>
+    <Version>1.2.0-alpha.4</Version>
     <AssemblyVersion>1.2.0.0</AssemblyVersion>
     <FileVersion>1.2.0.0</FileVersion>
     <PackageReleaseNotes>Support Field and Property</PackageReleaseNotes>
@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.0" />
-    <PackageReference Include="NAutowired.Core" Version="1.1.0-alpha.3" />
+    <PackageReference Include="NAutowired.Core" Version="1.1.0-alpha.4" />
   </ItemGroup>
 
 </Project>
