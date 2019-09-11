@@ -8,7 +8,7 @@
     <RepositoryUrl>https://github.com/kirov-opensource/NAutowired</RepositoryUrl>
     <Copyright>Copyright © kirov-opensource 2019</Copyright>
     <NeutralLanguage></NeutralLanguage>
-    <Version>1.1.0-alpha.4</Version>
+    <Version>1.1.0-beta.1</Version>
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <FileVersion>1.1.0.0</FileVersion>
     <PackageReleaseNotes>Support Console And Unit Test</PackageReleaseNotes>
