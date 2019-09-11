@@ -16,7 +16,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.0" />
-    <PackageReference Include="NAutowired.Core" Version="1.1.0-alpha.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NAutowired.Core\NAutowired.Core.csproj" />
   </ItemGroup>
 
 </Project>
