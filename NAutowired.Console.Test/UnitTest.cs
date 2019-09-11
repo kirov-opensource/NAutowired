@@ -5,7 +5,7 @@ using Xunit;
 
 namespace NAutowired.Console.Test
 {
-    public class UnitTest1
+    public class UnitTest
     {
 
         private readonly IConsoleHost consoleHost = ConsoleHost.CreateDefaultBuilder(new List<string> { "NAutowired.Console.Test" }).Build();
@@ -49,7 +49,27 @@ namespace NAutowired.Console.Test
             Assert.Equal(scopedLifetimeService, scopedLifetimeService2);
             Assert.Equal(singletonLifetimeService, singletonLifetimeService2);
         }
-        //todo TestCircularDependence
-        //todo TestBaseAutowired
+
+        [Fact]
+        public void TestCircularDependency()
+        {
+            var circularDependencyFooService = consoleHost.GetService<CircularDependencyFooService>();
+            Assert.NotNull(circularDependencyFooService);
+            Assert.NotNull(circularDependencyFooService.GetCircularDependencyBarService());
+            var circularDependencyBarService = consoleHost.GetService<CircularDependencyBarService>();
+            Assert.NotNull(circularDependencyBarService);
+            Assert.NotNull(circularDependencyBarService.GetCircularDependencyFooService());
+        }
+
+        [Fact]
+        public void TestBaseAutowired()
+        {
+            var baseService = consoleHost.GetService<BaseService>();
+            Assert.NotNull(baseService);
+            Assert.NotNull(baseService.GetBarService());
+            Assert.NotNull(baseService.GetFooService());
+        }
+
+        //not use  AutoRegisterDependency => dependency myself.=>circular dependency
     }
 }

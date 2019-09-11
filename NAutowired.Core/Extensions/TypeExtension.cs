@@ -26,20 +26,5 @@ namespace NAutowired.Core.Extensions
             }
             return GetFullMembers(type.BaseType, bindingFlags, memberInfos);
         }
-
-        internal static void InvokeConstructor(this Type type, object instance)
-        {
-            if (type.BaseType != baseType)
-            {
-                InvokeConstructor(type.BaseType, instance);
-            }
-            var methodInfo = type.GetMethod("Constructor", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.IgnoreCase, null, new Type[] { }, null);
-            if (methodInfo == null)
-            {
-                return;
-            }
-            methodInfo.Invoke(instance, null);
-        }
-
     }
 }

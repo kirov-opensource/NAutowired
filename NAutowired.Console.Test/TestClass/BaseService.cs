@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using NAutowired.Core.Attributes;
 
 namespace NAutowired.Console.Test.TestClass
 {
-    public class BaseService
+    [Service]
+    public class BaseService : Service
     {
+
     }
 }
