@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using NAutowired.Console.Test.TestClass;
 using NAutowired.Core;
 using System.Collections.Generic;
@@ -9,13 +8,7 @@ namespace NAutowired.Console.Test
     public class UnitTest1
     {
 
-        private readonly IConsoleHost consoleHost = ConsoleHost.CreateDefaultBuilder(() =>
-        {
-            var service = new ServiceCollection();
-            service.AddScoped<BarService>();
-            return service;
-        }, new List<string> { "NAutowired.Console.Test" }).Build();
-
+        private readonly IConsoleHost consoleHost = ConsoleHost.CreateDefaultBuilder(new List<string> { "NAutowired.Console.Test" }).Build();
 
         [Fact]
         public void TestGetService()

@@ -2,10 +2,8 @@
 
 namespace NAutowired.Console.Test.TestClass
 {
+    [Service]
     public class BarService
     {
-
-
-
     }
 }

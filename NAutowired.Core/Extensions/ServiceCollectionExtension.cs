@@ -85,16 +85,11 @@ namespace NAutowired.Core.Extensions
         /// <param name="dependencyTreeModel"></param>
         private static void AnalysisDependencyTree(DependencyTreeModel dependencyTreeModel)
         {
-            foreach (var fieldInfo in dependencyTreeModel.Dependency.Type.GetFullFields())
+            foreach (var memberInfo in dependencyTreeModel.Dependency.Type.GetFullMembers())
             {
-                //判断当前属性是否具有DependencyInjectionAttribute特性
-                var customeAttribute = fieldInfo.GetCustomAttribute(autowiredAttributeType, false);
-                if (customeAttribute == null)
-                {
-                    continue;
-                }
+                var customeAttribute = memberInfo.GetCustomAttribute(autowiredAttributeType, false);
                 //等待注入的类型
-                var injectionType = ((AutowiredAttribute)customeAttribute).RealType ?? fieldInfo.FieldType;
+                var injectionType = ((AutowiredAttribute)customeAttribute).RealType ?? memberInfo.GetRealType();
                 //自己依赖自己
                 if (injectionType == dependencyTreeModel.Dependency.Type)
                 {

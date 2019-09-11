@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NAutowired.Core.Attributes;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace NAutowired.Core.Extensions
@@ -8,20 +10,21 @@ namespace NAutowired.Core.Extensions
     {
 
         private readonly static Type baseType = typeof(object);
+        private readonly static Type autowiredAttributeType = typeof(AutowiredAttribute);
 
-        internal static IList<FieldInfo> GetFullFields(this Type type)
+        internal static IList<MemberInfo> GetFullMembers(this Type type)
         {
-            return GetFullFields(type, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly, new List<FieldInfo>());
+            return GetFullMembers(type, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly, new List<MemberInfo>());
         }
 
-        private static IList<FieldInfo> GetFullFields(this Type type, BindingFlags bindingFlags, List<FieldInfo> fieldInfos)
+        private static IList<MemberInfo> GetFullMembers(this Type type, BindingFlags bindingFlags, List<MemberInfo> memberInfos)
         {
-            fieldInfos.AddRange(type.GetFields(bindingFlags));
+            memberInfos.AddRange(type.GetMembers(bindingFlags).Where(memberInfo => (memberInfo.MemberType == MemberTypes.Field || memberInfo.MemberType == MemberTypes.Property) && memberInfo.GetCustomAttribute(autowiredAttributeType, false) != null));
             if (type.BaseType == baseType)
             {
-                return fieldInfos;
+                return memberInfos;
             }
-            return GetFullFields(type.BaseType, bindingFlags, fieldInfos);
+            return GetFullMembers(type.BaseType, bindingFlags, memberInfos);
         }
 
         internal static void InvokeConstructor(this Type type, object instance)

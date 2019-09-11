@@ -7,6 +7,8 @@ namespace NAutowired.Console.Test.TestClass
     {
         [Autowired]
         private readonly BarService barService;
+
+        [Autowired]
         private FooService fooService { get; set; }
 
         public BarService GetBarService() { return barService; }
