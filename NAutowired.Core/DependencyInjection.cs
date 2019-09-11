@@ -34,6 +34,7 @@ namespace NAutowired.Core
                 var customeAttribute = memberInfo.GetCustomAttribute(autowiredAttributeType, false);
                 var type = ((AutowiredAttribute)customeAttribute).RealType ?? memberInfo.GetRealType();
                 var value = GetInstance(instanceScopeModel, type);
+                //如果依赖树能找到,则说明此处含有循环依赖,从依赖树还原
                 //从parent instance 还原
                 if (value != null)
                 {
