@@ -71,5 +71,7 @@ namespace NAutowired.Console.Test
         }
 
         //not use  AutoRegisterDependency => dependency myself.=>circular dependency
+        //todo interface autowired test
+        //partial 
     }
 }
