@@ -9,11 +9,19 @@ ASP.NET CORE Field Injection
 
 * [中文](./README.md)
 
+## Idea and positioning
+* We don't make containers, we are just porters of `NetCore Container` (add some features to the default container).
+* Use attribute injection only for optional dependencies, which means your service will work even if you don't provide these dependencies.
+* Don't use `NAutowired` in the constructor. If your dependencies are required, use the constructor to inject these necessary dependencies. We are fully compatible with the `NetCore` default injection method.
+* We have not replaced `NetCore` default `Container`, which means you can still add services to `Container` using `IServiceCollection` in `Startup`. And use `NAutowired` to resolve dependencies.
+
 ### How to use
 * Introducing `NAutowired` and `NAutowired.Core` in the nuget.
 * The `NAutowired` package should only be referenced in the web project, and the `NAutowired.Core` package is referenced in projects that need to add features.
-* Replace the default `IControllerActivator` implementation with `NAutowiredControllerActivator` in `Startup.cs`.
 
+### `ASP.NET`
+* [WebAPI Sample](./Sample/NAutowiredSample)
+* Replace the default `IControllerActivator` implementation with `NAutowiredControllerActivator` in `Startup.cs`.
 ```csharp
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
@@ -78,7 +86,44 @@ ASP.NET CORE Field Injection
     }
   }
 ```
-`NAutowired` uses the DI container of ASP.NET CORE to get the instance, it just adds the way to inject dependencies, so you can still add `FooService` to the container using `services.AddScope<FooService>()`.
+
+### `Console`
+* [Console Sample](./Sample/NAutowiredConsoleSample)
+* Create a new `Srartup.cs` file and inherit from `NAutowired.Core.Startup`.
+```csharp
+public class Startup : NAutowired.Core.Startup
+{
+    [Autowired]
+    private readonly FooService fooService;
+
+    //Program start up func
+    public override void Run(string[] args)
+    {
+        System.Console.WriteLine(fooService.Foo());
+        System.Console.ReadLine();
+    }
+}
+```
+* In `Program.cs`
+```csharp
+class Program
+{
+    static void Main(string[] args)
+    {
+        ConsoleHost.CreateDefaultBuilder(new List<string> {  "assemblyName" }, args).Build().Run<Startup>();
+        //You can also let NAutowired use the IServiceCollection you passed
+        /*
+        ConsoleHost.CreateDefaultBuilder(() => {
+          var serviceDescriptors = new ServiceCollection();
+          serviceDescriptors.AddTransient<FooService>();
+          return serviceDescriptors;
+        }, new List<string> { "NAutowiredConsoleSample" }, args).Build().Run<Startup>();
+        */
+    }
+}
+```
+### `Unit Test`
+* [Unit Test Sample](./NAutowired.Console.Test)
 
 ### Advanced
 * You can inject a specific type with the `[Autowired(Type)]` method.
@@ -97,7 +142,7 @@ ASP.NET CORE Field Injection
     }
   }
 ```
-* `NAutowired` provides the `AddAutoDependencyInjection(assemblyName)` method for automatic container injection. This way you don't need to add the type to the container one by one in `Startup.cs`.
+* `NAutowired` provides the `AutoRegisterDependency(assemblyName)` method for automatic container injection. This way you don't need to add the type to the container one by one in `Startup.cs`.
 ```csharp
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
@@ -105,22 +150,17 @@ ASP.NET CORE Field Injection
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
       //services.AddScoped<FooService>();
       //Use automatic injection.
-      services.AddAutoDependencyInjection(new List<string> { "NAutowiredSample" });
+      services.AutoRegisterDependency(new List<string> { "NAutowiredSample" });
     }
   }
 ```
 Use the `[Service] [Repository] [Component] [ServiceFilter]` attribute tag class.
 ```csharp
-  //The default DependencyInjectionModeEnum value is Scoped
+  //The default Lifetime value is Scoped
   [Service]
-  //DependencyInjectionModeEnum to choose the life cycle of dependency injection
-  //[Service(DependencyInjectionModeEnum.Singleton)]
+  //Lifetime to choose the life cycle of dependency injection
+  //[Service(Lifetime.Singleton)]
   public class FooService {
   }
 ```
 `NAutowired` will automatically scan all classes under the assembly configured by the `AddAutoDependencyInjection(assemblyName)` method, and inject the class with the `[Service] [Repository] [Component] [ServiceFilter]` property into the container.
-
-### Explanation
-* Since `NAutowired` does not replace the default DI mode of `ASP.NET CORE`, you can still inject dependencies through the constructor. `NAutowired` is fully compatible with the default DI mode of `ASP.NET CORE`.
-* Using `Field Injection` is an anti-pattern thing that violates the [Explicit Dependencies](https://docs.microsoft.com/en-us/dotnet/standard/modern-web-apps-azure-architecture/architectural-principles#explicit-dependencies) principle.
-* Support circular dependencies

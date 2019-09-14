@@ -7,11 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAutowired", "NAutowired\NA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAutowired.Core", "NAutowired.Core\NAutowired.Core.csproj", "{61F5D8F8-FF96-4BCD-91B6-68DE770DD580}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAutowiredSample", "NAutowiredSample\NAutowiredSample.csproj", "{600984EC-4B95-4BF2-B20E-4D776DFAB70A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAutowired.Console", "NAutowired.Console\NAutowired.Console.csproj", "{3A34F8C5-5752-432D-AC30-4EE463A77EAD}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAutowiredConsoleSample", "NAutowiredConsoleSample\NAutowiredConsoleSample.csproj", "{5C87895B-F5D3-4A37-9E05-8A47C550C755}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAutowired.Console.Test", "NAutowired.Console.Test\NAutowired.Console.Test.csproj", "{02AB88B7-7972-474A-A9D2-1A03E478B1D2}"
 EndProject
@@ -29,18 +25,10 @@ Global
 		{61F5D8F8-FF96-4BCD-91B6-68DE770DD580}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61F5D8F8-FF96-4BCD-91B6-68DE770DD580}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61F5D8F8-FF96-4BCD-91B6-68DE770DD580}.Release|Any CPU.Build.0 = Release|Any CPU
-		{600984EC-4B95-4BF2-B20E-4D776DFAB70A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{600984EC-4B95-4BF2-B20E-4D776DFAB70A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{600984EC-4B95-4BF2-B20E-4D776DFAB70A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{600984EC-4B95-4BF2-B20E-4D776DFAB70A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3A34F8C5-5752-432D-AC30-4EE463A77EAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3A34F8C5-5752-432D-AC30-4EE463A77EAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A34F8C5-5752-432D-AC30-4EE463A77EAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A34F8C5-5752-432D-AC30-4EE463A77EAD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C87895B-F5D3-4A37-9E05-8A47C550C755}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C87895B-F5D3-4A37-9E05-8A47C550C755}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C87895B-F5D3-4A37-9E05-8A47C550C755}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C87895B-F5D3-4A37-9E05-8A47C550C755}.Release|Any CPU.Build.0 = Release|Any CPU
 		{02AB88B7-7972-474A-A9D2-1A03E478B1D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{02AB88B7-7972-474A-A9D2-1A03E478B1D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02AB88B7-7972-474A-A9D2-1A03E478B1D2}.Release|Any CPU.ActiveCfg = Release|Any CPU

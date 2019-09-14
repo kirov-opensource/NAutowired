@@ -7,15 +7,18 @@
 ASP.NET CORE 通过属性注入依赖
 * [English](./README_EN.md)
 
-### 理念与定位
+## 理念与定位
 * 我们不做容器，我们只是`NetCore Container`的搬运工（在默认容器的基础上增加了一些功能）.
 * 仅对可选依赖项使用属性注入，这意味着您的服务即使不提供这些依赖也可以正常工作.
 * 不要在构造函数中使用`NAutowired`，如果您的依赖是必须的，请使用构造函数注入这些必须的依赖，我们完全兼容`NetCore`默认的注入方式.
 * 由于我们与那些`妖艳的`第三方`IoC Container`有些不同，我们没有替换`NetCore`默认的`Container`，这意味着您依然可以在`Startup`里使用`IServiceCollection`将服务加入到`Container`并使用`NAutowired`还原这些依赖.
 
-### 如何使用
-* nuget包管理器中引入`NAutowired`和`NAutowired.Core`.
-* `NAutowired`包应该只在Web项目中被引用, `NAutowired.Core`包则在需要添加特性的项目中被引用.
+## 如何使用
+* `nuget`包管理器中引入`NAutowired`和`NAutowired.Core`.
+* `NAutowired`包应该只在Web或Console项目中被引用，`NAutowired.Core`包则在需要添加特性的项目中被引用.
+
+### `ASP.NET`
+* [WebAPI 样例](./Sample/NAutowiredSample)
 * 在`Startup.cs`中替换默认的`IControllerActivator`实现为`NAutowiredControllerActivator`.
 
 ```csharp
@@ -85,9 +88,45 @@ ASP.NET CORE 通过属性注入依赖
   }
 ```
 
+### `Console`
+* [Console 样例](./Sample/NAutowiredConsoleSample)
+* 新建`Srartup.cs`文件，并且继承自`NAutowired.Core.Startup`.
+```csharp
+public class Startup : NAutowired.Core.Startup
+{
+    [Autowired]
+    private readonly FooService fooService;
 
-`NAutowired`使用ASP.NET CORE自带的DI容器获取实例, 它解决的仅仅是注入依赖的方式, 因此您依旧可以使用`services.AddScope<FooService>()`方式将`FooService`加入到容器.
-### 进阶
+    //程序启动时将会执行此方法
+    public override void Run(string[] args)
+    {
+        System.Console.WriteLine(fooService.Foo());
+        System.Console.ReadLine();
+    }
+}
+```
+* 在`Program.cs`中
+```csharp
+class Program
+{
+    static void Main(string[] args)
+    {
+        ConsoleHost.CreateDefaultBuilder(new List<string> {  "assemblyName" }, args).Build().Run<Startup>();
+        //你也可以让NAutowired使用你传递的IServiceCollection
+        /*
+        ConsoleHost.CreateDefaultBuilder(() => {
+          var serviceDescriptors = new ServiceCollection();
+          serviceDescriptors.AddTransient<FooService>();
+          return serviceDescriptors;
+        }, new List<string> { "NAutowiredConsoleSample" }, args).Build().Run<Startup>();
+        */
+    }
+}
+```
+### `单元测试`
+* [单元测试 样例](./NAutowired.Console.Test)
+
+## 进阶
 * 您可以通过`[Autowired(Type)]`方式注入特定的类型.
 ```csharp
   [Route("api/[controller]")]
@@ -104,30 +143,24 @@ ASP.NET CORE 通过属性注入依赖
     }
   }
 ```
-* `NAutowired`提供了`AddAutoDependencyInjection(assemblyName)`方法进行自动容器注入.这种方式让您无需在`Startup.cs`中一个个的将类型加入到容器.
+* `NAutowired`提供了`AutoRegisterDependency(assemblyNames)`方法进行自动容器注入.这种方式让您无需在`Startup.cs`中一个个的将类型加入到容器.
 ```csharp
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) {
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-      //services.AddScoped<FooService>();
       //使用自动注入
-      services.AddAutoDependencyInjection(new List<string> { "NAutowiredSample" });
+      services.AutoRegisterDependency(new List<string> { "NAutowiredSample" });
     }
   }
 ```
 使用`[Service] [Repository] [Component] [ServiceFilter]`特性标记类
 ```csharp
-  //默认DependencyInjectionModeEnum值为Scoped
+  //默认Lifetime值为Scoped
   [Service]
-  //DependencyInjectionModeEnum可供选择依赖注入的生命周期
-  //[Service(DependencyInjectionModeEnum.Singleton)]
+  //Lifetime可供选择依赖注入的生命周期
+  //[Service(Lifetime.Singleton)]
   public class FooService {
   }
 ```
-`NAutowired`会自动扫描`AddAutoDependencyInjection(assemblyName)`方法配置的程序集下的所有类, 并将具有`[Service] [Repository] [Component] [ServiceFilter]`特性的类注入到容器.
-
-### 说明
-* 由于`NAutowired`并没有替换`ASP.NET CORE`默认的DI方式, 所以您依然可以通过构造函数注入依赖, `NAutowired`与`ASP.NET CORE`默认的DI方式完全兼容.
-* 使用`Field Injection`是一个反模式的东西, 它违反了[显式依赖](https://docs.microsoft.com/zh-cn/dotnet/standard/modern-web-apps-azure-architecture/architectural-principles#explicit-dependencies)原则.
-* 支持循环依赖
+`NAutowired`会自动扫描`AutoRegisterDependency(assemblyNames)`方法配置的程序集下的所有类，并将具有`[Service] [Repository] [Component] [ServiceFilter]`特性的类注入到容器.
