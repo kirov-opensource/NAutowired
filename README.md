@@ -9,8 +9,7 @@ ASP.NET CORE 通过属性注入依赖
 
 ## 理念与定位
 * 我们不做容器，我们只是`NetCore Container`的搬运工（在默认容器的基础上增加了一些功能）.
-* 仅对可选依赖项使用属性注入，这意味着您的服务即使不提供这些依赖也可以正常工作.
-* 不要在构造函数中使用`NAutowired`，如果您的依赖是必须的，请使用构造函数注入这些必须的依赖，我们完全兼容`NetCore`默认的注入方式.
+* 不要在构造函数中使用`NAutowired`.
 * 由于我们与那些`妖艳的`第三方`IoC Container`有些不同，我们没有替换`NetCore`默认的`Container`，这意味着您依然可以在`Startup`里使用`IServiceCollection`将服务加入到`Container`并使用`NAutowired`还原这些依赖.
 
 ## 如何使用
