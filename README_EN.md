@@ -11,8 +11,7 @@ ASP.NET CORE Field Injection
 
 ## Idea and positioning
 * We don't make containers, we are just porters of `NetCore Container` (add some features to the default container).
-* Use attribute injection only for optional dependencies, which means your service will work even if you don't provide these dependencies.
-* Don't use `NAutowired` in the constructor. If your dependencies are required, use the constructor to inject these necessary dependencies. We are fully compatible with the `NetCore` default injection method.
+* Don't use `NAutowired` in the constructor.
 * We have not replaced `NetCore` default `Container`, which means you can still add services to `Container` using `IServiceCollection` in `Startup`. And use `NAutowired` to resolve dependencies.
 
 ### How to use
