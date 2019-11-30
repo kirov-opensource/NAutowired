@@ -42,7 +42,6 @@ public void ConfigureServices(IServiceCollection services) {
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) {
-      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
       //将FooService加到容器
       services.AddScoped<FooService>();
     }
@@ -95,7 +94,7 @@ public void ConfigureServices(IServiceCollection services) {
 
 ### `NET Core 3.0 Console`
 * [Console 样例](./Sample/NAutowired.Console.Sample)
-* 新建`Srartup.cs`文件，并且继承自`NAutowired.Core.Startup`.
+#### 新建`Srartup.cs`文件，并且继承自`NAutowired.Core.Startup`.
 ```csharp
 public class Startup : NAutowired.Core.Startup
 {
@@ -110,7 +109,7 @@ public class Startup : NAutowired.Core.Startup
     }
 }
 ```
-* 在`Program.cs`中
+#### 在`Program.cs`中
 ```csharp
 class Program
 {

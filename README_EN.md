@@ -19,27 +19,31 @@ ASP.NET CORE Field Injection
 * The `NAutowired` package should only be referenced in the web project, and the `NAutowired.Core` package is referenced in projects that need to add features.
 
 ### `ASP.NET`
-* [WebAPI Sample](./Sample/NAutowiredSample)
+* [WebAPI Sample](./Sample/NAutowired.WebAPI.Sample)
+
+By default, when `ASP.NET Core` generates `Controller`, dependencies in the `Controller` constructor are resolved from the container, but the controller is not resolved from the container, which results in:
+* The lifetime of the `Controller` is handled by the framework, not the lifetime of the request
+* The lifetime of parameters in the `Controller` constructor is handled by the request lifetime
+* In `Controller` use `Field Injection` won’t work
+
+You must use the AddControllersAsServices method to register the Controller as a Service so that the `Controller` can use the `Field Injection` when resolve.
+#### Use `AddControllersAsServices` in `Startup.cs` and replace `IControllerActivator` as `NAutowiredControllerActivator`.
 * Replace the default `IControllerActivator` implementation with `NAutowiredControllerActivator` in `Startup.cs`.
 ```csharp
-  public class Startup {
-    // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services) {
-      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-      //Replace.
-      //When creating the Controller,Program will find if there is a class that implements IControllerActivator in IServiceProvider. If it finds it, it will use it to construct Controller, otherwise it will use DefaultControllerActivator.
-      //Reference https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1#default-service-container-replacement.
-      services.AddSingleton<IControllerActivator, NAutowiredControllerActivator>();
-    }
+public void ConfigureServices(IServiceCollection services) {
+    //register controllers as services
+    services.AddControllers().AddControllersAsServices();
+    //replace `IControllerActivator` implement.
+    services.Replace(ServiceDescriptor.Transient<IControllerActivator, NAutowiredControllerActivator>());
+}
 ```
 
 ```csharp
-    // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services) {
-      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-      //Add FooService to container.
-      services.AddScoped<FooService>();
-    }
+// This method gets called by the runtime. Use this method to add services to the container.
+public void ConfigureServices(IServiceCollection services) {
+    //Add FooService to container.
+    services.AddScoped<FooService>();
+}
 ```
 ```csharp
   [Route("api/[controller]")]
@@ -56,7 +60,7 @@ ASP.NET CORE Field Injection
     }
   }
 ```
-* Use in `Filter`.
+#### Use in `Filter`.
 ```csharp
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
@@ -86,9 +90,9 @@ ASP.NET CORE Field Injection
   }
 ```
 
-### `Console`
-* [Console Sample](./Sample/NAutowiredConsoleSample)
-* Create a new `Srartup.cs` file and inherit from `NAutowired.Core.Startup`.
+### `NET Core 3.0 Console`
+* [Console Sample](./Sample/NAutowired.Console.Sample)
+#### Create a new `Srartup.cs` file and inherit from `NAutowired.Core.Startup`.
 ```csharp
 public class Startup : NAutowired.Core.Startup
 {
@@ -103,7 +107,7 @@ public class Startup : NAutowired.Core.Startup
     }
 }
 ```
-* In `Program.cs`
+#### In `Program.cs`
 ```csharp
 class Program
 {
@@ -122,10 +126,10 @@ class Program
 }
 ```
 ### `Unit Test`
-* [Unit Test Sample](./NAutowired.Console.Test)
+#### [Unit Test Sample](./NAutowired.Console.Test)
 
 ### Advanced
-* You can inject a specific type with the `[Autowired(Type)]` method.
+#### You can inject a specific type with the `[Autowired(Type)]` method.
 ```csharp
   [Route("api/[controller]")]
   [ApiController]
@@ -141,7 +145,7 @@ class Program
     }
   }
 ```
-* `NAutowired` provides the `AutoRegisterDependency(assemblyName)` method for automatic container injection. This way you don't need to add the type to the container one by one in `Startup.cs`.
+#### `NAutowired` provides the `AutoRegisterDependency(assemblyName)` method for automatic container injection. This way you don't need to add the type to the container one by one in `Startup.cs`.
 ```csharp
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
@@ -153,7 +157,7 @@ class Program
     }
   }
 ```
-Use the `[Service] [Repository] [Component] [ServiceFilter]` attribute tag class.
+#### Use the `[Service] [Repository] [Component] [ServiceFilter]` attribute tag class.
 ```csharp
   //The default Lifetime value is Scoped
   [Service]
@@ -162,4 +166,4 @@ Use the `[Service] [Repository] [Component] [ServiceFilter]` attribute tag class
   public class FooService {
   }
 ```
-`NAutowired` will automatically scan all classes under the assembly configured by the `AddAutoDependencyInjection(assemblyName)` method, and inject the class with the `[Service] [Repository] [Component] [ServiceFilter]` property into the container.
+ `NAutowired` will automatically scan all classes under the assembly configured by the `AddAutoDependencyInjection(assemblyName)` method, and inject the class with the `[Service] [Repository] [Component] [ServiceFilter]` property into the container.
