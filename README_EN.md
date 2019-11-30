@@ -65,7 +65,6 @@ public void ConfigureServices(IServiceCollection services) {
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) {
-      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
       //Add Filter to container.
       services.AddScoped<AuthorizationFilter>();
     }
@@ -92,7 +91,7 @@ public void ConfigureServices(IServiceCollection services) {
 
 ### `NET Core 3.0 Console`
 * [Console Sample](./Sample/NAutowired.Console.Sample)
-#### Create a new `Srartup.cs` file and inherit from `NAutowired.Core.Startup`.
+#### Create a new `Srartup.cs` file and inherit from `NAutowired.Core.Startup`
 ```csharp
 public class Startup : NAutowired.Core.Startup
 {
