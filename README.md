@@ -92,7 +92,7 @@ public void ConfigureServices(IServiceCollection services) {
   }
 ```
 
-### `NET Core 3.0 Console`
+### `NET Core 3.0` Console
 * [Console 样例](./Sample/NAutowired.Console.Sample)
 #### 新建`Srartup.cs`文件，并且继承自`NAutowired.Core.Startup`
 ```csharp
@@ -127,7 +127,7 @@ class Program
     }
 }
 ```
-### `单元测试`
+### 单元测试
 * [单元测试 样例](./NAutowired.Console.Test)
 
 ## 进阶

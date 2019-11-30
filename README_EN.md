@@ -28,7 +28,7 @@ By default, when `ASP.NET Core` generates `Controller`, dependencies in the `Con
 
 You must use the AddControllersAsServices method to register the Controller as a Service so that the `Controller` can use the `Field Injection` when resolve.
 Use `AddControllersAsServices` in `Startup.cs` and replace `IControllerActivator` as `NAutowiredControllerActivator`.
-#### Replace the default `IControllerActivator` implementation with `NAutowiredControllerActivator` in `Startup.cs`.
+#### Replace the default `IControllerActivator` implementation with `NAutowiredControllerActivator` in `Startup.cs`
 ```csharp
 public void ConfigureServices(IServiceCollection services) {
     //register controllers as services
@@ -89,7 +89,7 @@ public void ConfigureServices(IServiceCollection services) {
   }
 ```
 
-### `NET Core 3.0 Console`
+### `NET Core 3.0` Console
 * [Console Sample](./Sample/NAutowired.Console.Sample)
 #### Create a new `Srartup.cs` file and inherit from `NAutowired.Core.Startup`
 ```csharp
@@ -124,7 +124,7 @@ class Program
     }
 }
 ```
-### `Unit Test`
+### Unit Test
 * [Unit Test Sample](./NAutowired.Console.Test)
 
 ### Advanced
