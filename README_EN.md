@@ -26,7 +26,7 @@ By default, when `ASP.NET Core` generates `Controller`, dependencies in the `Con
 * The lifetime of parameters in the `Controller` constructor is handled by the request lifetime
 * In `Controller` use `Field Injection` won’t work
 
-You must use the AddControllersAsServices method to register the Controller as a Service so that the `Controller` can use the `Field Injection` when resolve.
+You must use the `AddControllersAsServices` method to register the `Controller` as a Service so that the `Controller` can use the `Field Injection` when resolve.
 Use `AddControllersAsServices` in `Startup.cs` and replace `IControllerActivator` as `NAutowiredControllerActivator`.
 #### Replace the default `IControllerActivator` implementation with `NAutowiredControllerActivator` in `Startup.cs`
 ```csharp
