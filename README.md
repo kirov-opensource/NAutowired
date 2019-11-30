@@ -94,7 +94,7 @@ public void ConfigureServices(IServiceCollection services) {
 
 ### `NET Core 3.0 Console`
 * [Console 样例](./Sample/NAutowired.Console.Sample)
-#### 新建`Srartup.cs`文件，并且继承自`NAutowired.Core.Startup`.
+#### 新建`Srartup.cs`文件，并且继承自`NAutowired.Core.Startup`
 ```csharp
 public class Startup : NAutowired.Core.Startup
 {
@@ -131,7 +131,7 @@ class Program
 * [单元测试 样例](./NAutowired.Console.Test)
 
 ## 进阶
-#### 您可以通过`[Autowired(Type)]`方式注入特定的类型.
+#### 您可以通过`[Autowired(Type)]`方式注入特定的类型
 ```csharp
   [Route("api/[controller]")]
   [ApiController]
@@ -147,7 +147,7 @@ class Program
     }
   }
 ```
-#### `NAutowired`提供了`AutoRegisterDependency(assemblyNames)`方法进行自动容器注入.这种方式让您无需在`Startup.cs`中一个个的将类型加入到容器.
+#### `NAutowired`提供了`AutoRegisterDependency(assemblyNames)`方法进行自动容器注入.这种方式让您无需在`Startup.cs`中一个个的将类型加入到容器
 ```csharp
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
