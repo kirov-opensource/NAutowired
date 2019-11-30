@@ -1,25 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>Asp.Net Core Field Injection Implement</Description>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <Description>ASP.NET Core Field Injection Implement</Description>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/kirov-opensource/NAutowired</PackageProjectUrl>
     <RepositoryUrl>https://github.com/kirov-opensource/NAutowired</RepositoryUrl>
     <Copyright>Copyright © kirov-opensource 2019</Copyright>
     <NeutralLanguage></NeutralLanguage>
-    <Version>1.2.0</Version>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
-    <FileVersion>1.2.0.0</FileVersion>
-    <PackageReleaseNotes>Support Field and Property</PackageReleaseNotes>
+    <Version>2.0.0</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <PackageReleaseNotes>Support ASP.NET Core 3.0</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Authors>kirov-opensource</Authors>
+    <PackageTags>asp-net-core dependency-injection field-injection nautowired autowired</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.0" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NAutowired.Core\NAutowired.Core.csproj" />
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NAutowired.Core" Version="2.0.0" />
   </ItemGroup>
 
 </Project>

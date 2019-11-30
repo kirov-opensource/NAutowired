@@ -282,3 +282,4 @@ appsettings.*.json
 
 # all thrift generate code
 thrift_idl/gen-*/
+nupkgs/

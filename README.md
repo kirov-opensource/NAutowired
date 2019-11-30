@@ -4,11 +4,11 @@
 [![GitHub issues](https://img.shields.io/github/issues/kirov-opensource/NAutowired.svg?style=flat-square&logo=github)](https://github.com/kirov-opensource/NAutowired/issues)
 ![GitHub top language](https://img.shields.io/github/languages/top/kirov-opensource/NAutowired.svg?style=flat-square&logo=github)
 
-ASP.NET CORE 通过属性注入依赖
+ASP.NET Core 通过属性注入依赖
 * [English](./README_EN.md)
 
 ## 理念与定位
-* 我们不做容器，我们只是`NetCore Container`的搬运工（在默认容器的基础上增加了一些功能）.
+* 我们不做容器，我们只是`NET Core Container`的搬运工（在默认容器的基础上增加了一些功能）.
 * 不要在构造函数中使用`NAutowired`.
 * 由于我们与那些`妖艳的`第三方`IoC Container`有些不同，我们没有替换`NetCore`默认的`Container`，这意味着您依然可以在`Startup`里使用`IServiceCollection`将服务加入到`Container`并使用`NAutowired`还原这些依赖.
 
@@ -16,22 +16,28 @@ ASP.NET CORE 通过属性注入依赖
 * `nuget`包管理器中引入`NAutowired`和`NAutowired.Core`.
 * `NAutowired`包应该只在Web或Console项目中被引用，`NAutowired.Core`包则在需要添加特性的项目中被引用.
 
-### `ASP.NET`
-* [WebAPI 样例](./Sample/NAutowiredSample)
-* 在`Startup.cs`中替换默认的`IControllerActivator`实现为`NAutowiredControllerActivator`.
+### `ASP.NET Core 3.0`
+* [WebAPI 样例](./Sample/NAutowired.WebAPI.Sample)
+
+默认情况下，`ASP.NET Core`生成`Controller`时从容器中解析`Controller`构造函数中的依赖，但是不从容器中还原控制器，这导致：
+* `Controller`的生命周期由框架处理，而不是请求的生命周期
+* `Controller`构造函数中参数的生命周期由请求生命周期处理
+* 在`Controller`中通过`属性注入`将不起作用
+
+您必须使用`AddControllersAsServices`方法，将`Controller`注册为`Service`，以便`Controller`在还原时使用`属性注入`.
+
+#### 在`Startup.cs`中使用`AddControllersAsServices`并替换`IControllerActivator`实现为`NAutowiredControllerActivator`.
 
 ```csharp
-  public class Startup {
-    // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services) {
-      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-      //替换默认的`IControllerActivator`实现.
-      services.AddSingleton<IControllerActivator, NAutowiredControllerActivator>();
-    }
-  }
+public void ConfigureServices(IServiceCollection services) {
+    //register controllers as services
+    services.AddControllers().AddControllersAsServices();
+    //replace `IControllerActivator` implement.
+    services.Replace(ServiceDescriptor.Transient<IControllerActivator, NAutowiredControllerActivator>());
+}
 ```
 
-* 使用`Autowired`
+#### 使用`Autowired`
 ```csharp
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
@@ -57,7 +63,7 @@ ASP.NET CORE 通过属性注入依赖
     }
   }
 ```
-* 在`Filter`中使用`NAutowired`
+#### 在`Filter`中使用`NAutowired`
 ```csharp
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
@@ -87,8 +93,8 @@ ASP.NET CORE 通过属性注入依赖
   }
 ```
 
-### `Console`
-* [Console 样例](./Sample/NAutowiredConsoleSample)
+### `NET Core 3.0 Console`
+* [Console 样例](./Sample/NAutowired.Console.Sample)
 * 新建`Srartup.cs`文件，并且继承自`NAutowired.Core.Startup`.
 ```csharp
 public class Startup : NAutowired.Core.Startup
@@ -126,7 +132,7 @@ class Program
 * [单元测试 样例](./NAutowired.Console.Test)
 
 ## 进阶
-* 您可以通过`[Autowired(Type)]`方式注入特定的类型.
+#### 您可以通过`[Autowired(Type)]`方式注入特定的类型.
 ```csharp
   [Route("api/[controller]")]
   [ApiController]
@@ -142,7 +148,7 @@ class Program
     }
   }
 ```
-* `NAutowired`提供了`AutoRegisterDependency(assemblyNames)`方法进行自动容器注入.这种方式让您无需在`Startup.cs`中一个个的将类型加入到容器.
+#### `NAutowired`提供了`AutoRegisterDependency(assemblyNames)`方法进行自动容器注入.这种方式让您无需在`Startup.cs`中一个个的将类型加入到容器.
 ```csharp
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
@@ -153,7 +159,7 @@ class Program
     }
   }
 ```
-使用`[Service] [Repository] [Component] [ServiceFilter]`特性标记类
+#### 使用`[Service] [Repository] [Component] [ServiceFilter]`特性标记类
 ```csharp
   //默认Lifetime值为Scoped
   [Service]

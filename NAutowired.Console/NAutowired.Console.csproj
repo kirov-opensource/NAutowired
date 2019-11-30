@@ -1,21 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <Description>Net Core Console Field Injection Implement</Description>
+        <PackageProjectUrl>https://github.com/kirov-opensource/NAutowired</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/kirov-opensource/NAutowired</RepositoryUrl>
+        <Copyright>Copyright © kirov-opensource 2019</Copyright>
+        <PackageReleaseNotes>Support NETStandard 2.1</PackageReleaseNotes>
+        <Version>2.0.0</Version>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <Authors>kirov-opensource</Authors>
+        <PackageTags>console net-core dependency-injection field-injection nautowired autowired</PackageTags>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>Net Core Console Field Injection Implement</Description>
-    <PackageProjectUrl>https://github.com/kirov-opensource/NAutowired</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/kirov-opensource/NAutowired</RepositoryUrl>
-    <Copyright>Copyright © kirov-opensource 2019</Copyright>
-    <PackageReleaseNotes>Support Console And Unit Test</PackageReleaseNotes>
-    <Version>1.0.0</Version>
-  </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
+        <PackageReference Include="NAutowired.Core" Version="2.0.0" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\NAutowired.Core\NAutowired.Core.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+      <None Include="..\LICENSE.txt">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
+    </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿using NAutowired.Core.Attributes;
 
-namespace NAutowiredSample.Repository {
+namespace NAutowired.WebAPI.Sample.Repository {
 
   [Repository]
   public class FooRepository {
