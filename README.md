@@ -1,7 +1,8 @@
 # NAutowired 
 [![NuGet](https://img.shields.io/nuget/v/NAutowired.svg?style=flat-square&logo=nuget)](https://www.nuget.org/packages/NAutowired)
-![GitHub repo size in bytes](https://img.shields.io/github/repo-size/kirov-opensource/NAutowired.svg?style=flat-square&logo=github)
+[![NuGet](https://img.shields.io/nuget/dt/NAutowired?logo=nuget&style=flat-square)](https://www.nuget.org/packages/NAutowired)
 [![GitHub issues](https://img.shields.io/github/issues/kirov-opensource/NAutowired.svg?style=flat-square&logo=github)](https://github.com/kirov-opensource/NAutowired/issues)
+![GitHub repo size in bytes](https://img.shields.io/github/repo-size/kirov-opensource/NAutowired.svg?style=flat-square&logo=github)
 ![GitHub top language](https://img.shields.io/github/languages/top/kirov-opensource/NAutowired.svg?style=flat-square&logo=github)
 
 ASP.NET Core 通过属性注入依赖
