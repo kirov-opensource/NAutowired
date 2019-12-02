@@ -27,7 +27,7 @@ ASP.NET Core 通过属性注入依赖
 
 您必须使用`AddControllersAsServices`方法，将`Controller`注册为`Service`，以便`Controller`在还原时使用`属性注入`.
 
-#### 在`Startup.cs`中使用`AddControllersAsServices`并替换`IControllerActivator`实现为`NAutowiredControllerActivator`.
+#### 在`Startup.cs`中使用`AddControllersAsServices`并替换`IControllerActivator`实现为`NAutowiredControllerActivator`
 
 ```csharp
 public void ConfigureServices(IServiceCollection services) {
