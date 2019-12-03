@@ -12,6 +12,7 @@ ASP.NET Core 通过属性注入依赖
 * 我们不做容器，我们只是`NET Core Container`的搬运工（在默认容器的基础上增加了一些功能）.
 * 不要在构造函数中使用`NAutowired`.
 * 由于我们与那些`妖艳的`第三方`IoC Container`有些不同，我们没有替换`NetCore`默认的`Container`，这意味着您依然可以在`Startup`里使用`IServiceCollection`将服务加入到`Container`并使用`NAutowired`还原这些依赖.
+* 虽然有人觉得Spring风格的DI有点[反模式](https://dzone.com/articles/spring-di-patterns-the-good-the-bad-and-the-ugly)，但是写起来爽。
 
 ## 如何使用
 * `nuget`包管理器中引入`NAutowired`和`NAutowired.Core`.
