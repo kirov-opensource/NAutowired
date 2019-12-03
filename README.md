@@ -9,14 +9,14 @@ ASP.NET Core 通过属性注入依赖
 * [English](./README_EN.md)
 
 ## 理念与定位
-* 我们不做容器，我们只是`NET Core Container`的搬运工（在默认容器的基础上增加了一些功能）.
-* 不要在构造函数中使用`NAutowired`.
-* 由于我们与那些`妖艳的`第三方`IoC Container`有些不同，我们没有替换`NetCore`默认的`Container`，这意味着您依然可以在`Startup`里使用`IServiceCollection`将服务加入到`Container`并使用`NAutowired`还原这些依赖.
-* 虽然有人觉得Spring风格的DI有点[反模式](https://dzone.com/articles/spring-di-patterns-the-good-the-bad-and-the-ugly)，但是写起来爽。
+* 我们不做容器，我们只是`NET Core Container`的搬运工（在默认容器的基础上增加了一些功能）。
+* 不要在构造函数中使用`NAutowired`。
+* 由于我们与那些`妖艳的`第三方`IoC Container`有些不同，我们没有替换`NetCore`默认的`Container`，这意味着您依然可以在`Startup`里使用`IServiceCollection`将服务加入到`Container`并使用`NAutowired`还原这些依赖。
+* 虽然有人觉得Spring风格的DI有点[反模式](https://dzone.com/articles/spring-di-patterns-the-good-the-bad-and-the-ugly)（[显式依赖](https://docs.microsoft.com/zh-cn/dotnet/architecture/modern-web-apps-azure/architectural-principles#explicit-dependencies)），但是写起来爽。
 
 ## 如何使用
-* `nuget`包管理器中引入`NAutowired`和`NAutowired.Core`.
-* `NAutowired`包应该只在Web或Console项目中被引用，`NAutowired.Core`包则在需要添加特性的项目中被引用.
+* `nuget`包管理器中引入`NAutowired`和`NAutowired.Core`。
+* `NAutowired`包应该只在Web或Console项目中被引用，`NAutowired.Core`包则在需要添加特性的项目中被引用。
 
 ### `ASP.NET Core 3.0`
 * [WebAPI 样例](./Sample/NAutowired.WebAPI.Sample)
@@ -26,7 +26,7 @@ ASP.NET Core 通过属性注入依赖
 * `Controller`构造函数中参数的生命周期由请求生命周期处理
 * 在`Controller`中通过`属性注入`将不起作用
 
-您必须使用`AddControllersAsServices`方法，将`Controller`注册为`Service`，以便`Controller`在还原时使用`属性注入`.
+您必须使用`AddControllersAsServices`方法，将`Controller`注册为`Service`，以便`Controller`在还原时使用`属性注入`。
 
 #### 在`Startup.cs`中使用`AddControllersAsServices`并替换`IControllerActivator`实现为`NAutowiredControllerActivator`
 
@@ -168,4 +168,4 @@ class Program
   public class FooService {
   }
 ```
-`NAutowired`会自动扫描`AutoRegisterDependency(assemblyNames)`方法配置的程序集下的所有类，并将具有`[Service] [Repository] [Component] [ServiceFilter]`特性的类注入到容器.
+`NAutowired`会自动扫描`AutoRegisterDependency(assemblyNames)`方法配置的程序集下的所有类，并将具有`[Service] [Repository] [Component] [ServiceFilter]`特性的类注入到容器。
