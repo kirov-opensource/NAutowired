@@ -14,7 +14,7 @@ ASP.NET CORE Field Injection
 * We don't make containers, we are just porters of `NetCore Container` (add some features to the default container).
 * Don't use `NAutowired` in the constructor.
 * We have not replaced `NetCore` default `Container`, which means you can still add services to `Container` using `IServiceCollection` in `Startup`. And use `NAutowired` to resolve dependencies.
-* Spring DI style is [ugly](https://dzone.com/articles/spring-di-patterns-the-good-the-bad-and-the-ugly), but who cares?
+* Spring DI style is [ugly](https://dzone.com/articles/spring-di-patterns-the-good-the-bad-and-the-ugly)([Explicit dependencies](https://docs.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/architectural-principles#explicit-dependencies)), but who cares?
 
 ### How to use
 * Introducing `NAutowired` and `NAutowired.Core` in the nuget.
