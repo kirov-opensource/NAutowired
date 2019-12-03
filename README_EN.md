@@ -151,7 +151,6 @@ class Program
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) {
-      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
       //services.AddScoped<FooService>();
       //Use automatic injection.
       services.AutoRegisterDependency(new List<string> { "NAutowiredSample" });
