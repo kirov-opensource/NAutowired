@@ -157,13 +157,18 @@ class Program
     }
   }
 ```
-#### Use the `[Service] [Repository] [Component] [ServiceFilter]` attribute tag class
+#### Use the `[Service] [Repository] [Component] [ServiceFilter]` attribute tag class, these classes will be added to the container when `AutoRegisterDependency` is executed
 ```csharp
   //The default Lifetime value is Scoped
   [Service]
   //Lifetime to choose the life cycle of dependency injection
   //[Service(Lifetime.Singleton)]
   public class FooService {
+  }
+
+  [Service(implementInterface: typeof(IService))]
+  //injection interface to container like services.AddScoped(typeof(IService), typeof(FooService));
+  public class FooService: IService {
   }
 ```
  `NAutowired` will automatically scan all classes under the assembly configured by the `AddAutoDependencyInjection(assemblyName)` method, and inject the class with the `[Service] [Repository] [Component] [ServiceFilter]` property into the container.

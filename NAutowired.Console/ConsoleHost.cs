@@ -63,6 +63,23 @@ namespace NAutowired.Console
             return new DefaultConsoleHostBuilder(serviceCollection);
         }
 
+        public static IConsoleHostBuilder CreateDefaultBuilder(Action<IServiceCollection> action, IEnumerable<string> assemblies)
+        {
+            var serviceCollection = new ServiceCollection();
+            action.Invoke(serviceCollection);
+            serviceCollection.AutoRegisterDependency(assemblies);
+            return new DefaultConsoleHostBuilder(serviceCollection);
+        }
+
+
+        public static IConsoleHostBuilder CreateDefaultBuilder(Action<IServiceCollection> action, IEnumerable<string> assemblies, string[] args)
+        {
+            var serviceCollection = new ServiceCollection();
+            action.Invoke(serviceCollection);
+            serviceCollection.AutoRegisterDependency(assemblies);
+            return new DefaultConsoleHostBuilder(serviceCollection, args);
+        }
+
         public static IConsoleHostBuilder CreateDefaultBuilder(Func<IServiceCollection> func, IEnumerable<string> assemblies, string[] args)
         {
             var serviceCollection = func.Invoke();

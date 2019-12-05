@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NAutowired.Core;
 using System;
+using System.Linq;
 
 namespace NAutowired.Console
 {
@@ -23,11 +24,21 @@ namespace NAutowired.Console
             instance.Run(args);
         }
 
-        public T GetService<T>()
+        public TInterface GetService<TInterface>()
         {
-            var instance = serviceProvider.GetService<T>();
+            var instance = serviceProvider.GetService<TInterface>();
             if (instance == null)
                 return default;
+            DependencyInjection.Resolve(serviceProvider, instance);
+            return instance;
+        }
+
+        public TInterface GetService<TInterface, TImplement>() where TImplement : TInterface
+        {
+            var instances = serviceProvider.GetServices<TInterface>();
+            if (instances == null || !instances.Any())
+                return default;
+            var instance = instances.FirstOrDefault(i => i.GetType() == typeof(TImplement));
             DependencyInjection.Resolve(serviceProvider, instance);
             return instance;
         }

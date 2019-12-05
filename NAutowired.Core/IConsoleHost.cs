@@ -6,7 +6,9 @@ namespace NAutowired.Core
     {
         void Run<TStartup>() where TStartup : Startup, new();
 
-        T GetService<T>();
+        TInterface GetService<TInterface>();
+
+        TInterface GetService<TInterface, TImplement>() where TImplement : TInterface;
 
         object GetService(Type type);
     }

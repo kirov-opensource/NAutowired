@@ -1,8 +1,10 @@
-﻿using NAutowired.Core.Attributes;
+﻿using Microsoft.Extensions.DependencyInjection;
+using NAutowired.Core.Attributes;
 using NAutowired.Core.Exceptions;
 using NAutowired.Core.Extensions;
 using NAutowired.Core.Models;
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace NAutowired.Core
@@ -32,27 +34,28 @@ namespace NAutowired.Core
             foreach (var memberInfo in instanceScopeModel.Instance.GetType().GetFullMembers())
             {
                 var customeAttribute = memberInfo.GetCustomAttribute(autowiredAttributeType, false);
-                var type = ((AutowiredAttribute)customeAttribute).RealType ?? memberInfo.GetRealType();
-                var value = GetInstance(instanceScopeModel, type);
+                var memberType = memberInfo.GetRealType();
+                var realType = ((AutowiredAttribute)customeAttribute).RealType ?? memberType;
+                var instance = GetInstance(instanceScopeModel, realType);
                 //如果依赖树能找到,则说明此处含有循环依赖,从依赖树还原
                 //从parent instance 还原
-                if (value != null)
+                if (instance != null)
                 {
-                    memberInfo.SetValue(instanceScopeModel.Instance, value);
+                    memberInfo.SetValue(instanceScopeModel.Instance, instance);
                     continue;
                 }
                 //从容器拿到Instance
-                value = serviceProvider.GetService(type);
-                if (value == null)
+                instance = serviceProvider.GetServices(memberType)?.FirstOrDefault(i => i.GetType() == realType);
+                if (instance == null)
                 {
-                    throw new UnableResolveDependencyException($"Unable to resolve dependency {memberInfo.GetRealType().FullName}");
+                    throw new UnableResolveDependencyException($"Unable to resolve dependency {memberType.FullName} with {realType.FullName}");
                 }
                 //将Instance赋值给属性
-                memberInfo.SetValue(instanceScopeModel.Instance, value);
+                memberInfo.SetValue(instanceScopeModel.Instance, instance);
                 //构建下一个节点
                 var nextInstanceScopeModel = new InstanceScopeModel
                 {
-                    Instance = value,
+                    Instance = instance,
                     ParentInstanceScope = instanceScopeModel
                 };
                 //递归注入的属性是否有其它依赖

@@ -140,15 +140,15 @@ class Program
 
     //注入特定的实例
     [Autowired(typeof(FooService))]
-    private readonly IFooService fooService;
+    private readonly IService service;
 
     [HttpGet]
     public ActionResult<string> Get() {
-      return fooService == null ? "failure" : "success";
+      return service == null ? "failure" : "success";
     }
   }
 ```
-#### `NAutowired`提供了`AutoRegisterDependency(assemblyNames)`方法进行自动容器注入.这种方式让您无需在`Startup.cs`中一个个的将类型加入到容器
+#### `NAutowired`提供了`AutoRegisterDependency`方法进行自动容器注入.这种方式让您无需在`Startup.cs`中一个个的将类型加入到容器
 ```csharp
   public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
@@ -158,7 +158,7 @@ class Program
     }
   }
 ```
-#### 使用`[Service] [Repository] [Component] [ServiceFilter]`特性标记类
+#### 使用`[Service] [Repository] [Component] [ServiceFilter]`特性标记类，这些类将在`AutoRegisterDependency`执行时被加入到容器
 ```csharp
   //默认Lifetime值为Scoped
   [Service]
@@ -166,5 +166,11 @@ class Program
   //[Service(Lifetime.Singleton)]
   public class FooService {
   }
+
+  [Service(implementInterface: typeof(IService))]
+  //注入特定的实现类到容器。这将执行services.AddScoped(typeof(IService), typeof(FooService));
+  public class FooService: IService {
+  }
+
 ```
 `NAutowired`会自动扫描`AutoRegisterDependency(assemblyNames)`方法配置的程序集下的所有类，并将具有`[Service] [Repository] [Component] [ServiceFilter]`特性的类注入到容器。

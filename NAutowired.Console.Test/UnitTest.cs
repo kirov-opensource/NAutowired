@@ -3,13 +3,16 @@ using NAutowired.Core;
 using System.Collections.Generic;
 using Xunit;
 
-namespace NAutowired.Console.Test {
-    public class UnitTest {
+namespace NAutowired.Console.Test
+{
+    public class UnitTest
+    {
 
         private readonly IConsoleHost consoleHost = ConsoleHost.CreateDefaultBuilder(new List<string> { "NAutowired.Console.Test" }).Build();
 
         [Fact]
-        public void TestGetService() {
+        public void TestGetService()
+        {
             var barService = consoleHost.GetService<BarService>();
             Assert.NotNull(barService);
             var fooService = consoleHost.GetService<FooService>();
@@ -17,7 +20,8 @@ namespace NAutowired.Console.Test {
         }
 
         [Fact]
-        public void TestAutowired() {
+        public void TestAutowired()
+        {
             var autowiredService = consoleHost.GetService<AutowiredService>();
             Assert.NotNull(autowiredService);
             Assert.NotNull(autowiredService.GetFooService());
@@ -25,7 +29,8 @@ namespace NAutowired.Console.Test {
         }
 
         [Fact]
-        public void TestLifetime() {
+        public void TestLifetime()
+        {
             var scopedLifetimeService = consoleHost.GetService<ScopedLifetimeService>();
             var singletonLifetimeService = consoleHost.GetService<SingletonLifetimeService>();
             var transientLifetimeService = consoleHost.GetService<TransientLifetimeService>();
@@ -46,7 +51,8 @@ namespace NAutowired.Console.Test {
         }
 
         [Fact]
-        public void TestCircularDependency() {
+        public void TestCircularDependency()
+        {
             var circularDependencyFooService = consoleHost.GetService<CircularDependencyFooService>();
             Assert.NotNull(circularDependencyFooService);
             Assert.NotNull(circularDependencyFooService.GetCircularDependencyBarService());
@@ -56,11 +62,32 @@ namespace NAutowired.Console.Test {
         }
 
         [Fact]
-        public void TestBaseAutowired() {
+        public void TestBaseAutowired()
+        {
             var baseService = consoleHost.GetService<BaseService>();
             Assert.NotNull(baseService);
             Assert.NotNull(baseService.GetBarService());
             Assert.NotNull(baseService.GetFooService());
+        }
+
+        [Fact]
+        public void TestMultipleImplement()
+        {
+            var instanceBar = consoleHost.GetService<IMultipleImplement, MultipleImplementBarService>();
+            var instanceFoo = consoleHost.GetService<IMultipleImplement, MultipleImplementFooService>();
+            Assert.NotNull(instanceBar);
+            Assert.NotNull(instanceFoo);
+            Assert.Equal(nameof(MultipleImplementBarService), instanceBar.SayHello());
+            Assert.Equal(nameof(MultipleImplementFooService), instanceFoo.SayHello());
+        }
+
+        [Fact]
+        public void TestMultipleImplementAutowired()
+        {
+            var instance = consoleHost.GetService<MultipleImplementService>();
+            Assert.NotNull(instance);
+            Assert.Equal(nameof(MultipleImplementBarService), instance.BarSayHello());
+            Assert.Equal(nameof(MultipleImplementFooService), instance.FooSayHello());
         }
 
         //not use  AutoRegisterDependency => dependency myself.=>circular dependency

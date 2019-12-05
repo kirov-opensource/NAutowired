@@ -42,7 +42,8 @@ namespace NAutowired.Core.Extensions
                         container.Add(new DependencyModel
                         {
                             Lifetime = ((ServiceAttribute)attribute).DependencyInjectionMode,
-                            Type = type
+                            Type = type,
+                            ImplementInterface = ((ServiceAttribute)attribute).ImplementInterface
                         });
                         break;
                     }
@@ -51,7 +52,8 @@ namespace NAutowired.Core.Extensions
                         container.Add(new DependencyModel
                         {
                             Lifetime = ((RepositoryAttribute)attribute).DependencyInjectionMode,
-                            Type = type
+                            Type = type,
+                            ImplementInterface = ((RepositoryAttribute)attribute).ImplementInterface
                         });
                         break;
                     }
@@ -60,7 +62,8 @@ namespace NAutowired.Core.Extensions
                         container.Add(new DependencyModel
                         {
                             Lifetime = ((ComponentAttribute)attribute).DependencyInjectionMode,
-                            Type = type
+                            Type = type,
+                            ImplementInterface = ((ComponentAttribute)attribute).ImplementInterface
                         });
                         break;
                     }
@@ -69,7 +72,8 @@ namespace NAutowired.Core.Extensions
                         container.Add(new DependencyModel
                         {
                             Lifetime = ((FilterAttribute)attribute).DependencyInjectionMode,
-                            Type = type
+                            Type = type,
+                            ImplementInterface = ((FilterAttribute)attribute).ImplementInterface
                         });
                         break;
                     }
@@ -147,13 +151,28 @@ namespace NAutowired.Core.Extensions
                 switch (dependencyInjection.Lifetime)
                 {
                     case Lifetime.Transient:
-                        services.AddTransient(dependencyInjection.Type);
+                        if (dependencyInjection.ImplementInterface == null)
+                        {
+                            services.AddTransient(dependencyInjection.Type);
+                            break;
+                        }
+                        services.AddTransient(dependencyInjection.ImplementInterface, dependencyInjection.Type);
                         break;
                     case Lifetime.Scoped:
-                        services.AddScoped(dependencyInjection.Type);
+                        if (dependencyInjection.ImplementInterface == null)
+                        {
+                            services.AddScoped(dependencyInjection.Type);
+                            break;
+                        }
+                        services.AddScoped(dependencyInjection.ImplementInterface, dependencyInjection.Type);
                         break;
                     case Lifetime.Singleton:
-                        services.AddSingleton(dependencyInjection.Type);
+                        if (dependencyInjection.ImplementInterface == null)
+                        {
+                            services.AddSingleton(dependencyInjection.Type);
+                            break;
+                        }
+                        services.AddSingleton(dependencyInjection.ImplementInterface, dependencyInjection.Type);
                         break;
                 }
             }
