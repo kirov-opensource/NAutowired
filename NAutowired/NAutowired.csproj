@@ -8,9 +8,9 @@
     <RepositoryUrl>https://github.com/kirov-opensource/NAutowired</RepositoryUrl>
     <Copyright>Copyright © kirov-opensource 2019</Copyright>
     <NeutralLanguage></NeutralLanguage>
-    <Version>2.0.1</Version>
-    <AssemblyVersion>2.0.1.0</AssemblyVersion>
-    <FileVersion>2.0.1.0</FileVersion>
+    <Version>2.0.2</Version>
+    <AssemblyVersion>2.0.2.0</AssemblyVersion>
+    <FileVersion>2.0.2.0</FileVersion>
     <PackageReleaseNotes>Support multiple implement</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>kirov-opensource</Authors>
@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NAutowired.Core" Version="2.0.1" />
+    <PackageReference Include="NAutowired.Core" Version="2.0.2" />
   </ItemGroup>
 
 </Project>

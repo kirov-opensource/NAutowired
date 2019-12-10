@@ -35,8 +35,8 @@ namespace NAutowired.Core
             {
                 var customeAttribute = memberInfo.GetCustomAttribute(autowiredAttributeType, false);
                 var memberType = memberInfo.GetRealType();
-                var realType = ((AutowiredAttribute)customeAttribute).RealType ?? memberType;
-                var instance = GetInstance(instanceScopeModel, realType);
+                var realType = ((AutowiredAttribute)customeAttribute).RealType;
+                var instance = GetInstance(instanceScopeModel, realType ?? memberType);
                 //如果依赖树能找到,则说明此处含有循环依赖,从依赖树还原
                 //从parent instance 还原
                 if (instance != null)
@@ -44,11 +44,19 @@ namespace NAutowired.Core
                     memberInfo.SetValue(instanceScopeModel.Instance, instance);
                     continue;
                 }
-                //从容器拿到Instance
-                instance = serviceProvider.GetServices(memberType)?.FirstOrDefault(i => i.GetType() == realType);
+                if (realType == null)
+                {
+                    instance = serviceProvider.GetService(memberType);
+                }
+                else
+                {
+                    //从容器拿到Instance
+                    instance = serviceProvider.GetServices(memberType)?.FirstOrDefault(i => i.GetType() == realType);
+                }
+
                 if (instance == null)
                 {
-                    throw new UnableResolveDependencyException($"Unable to resolve dependency {memberType.FullName} with {realType.FullName}");
+                    throw new UnableResolveDependencyException($"Unable to resolve dependency {memberType.FullName}");
                 }
                 //将Instance赋值给属性
                 memberInfo.SetValue(instanceScopeModel.Instance, instance);
