@@ -1,5 +1,6 @@
 using NAutowired.Console.Test.TestClass;
 using NAutowired.Core;
+using NAutowired.Core.Exceptions;
 using System.Collections.Generic;
 using Xunit;
 
@@ -70,6 +71,9 @@ namespace NAutowired.Console.Test
             Assert.NotNull(baseService.GetFooService());
         }
 
+        /// <summary>
+        /// 多实现测试
+        /// </summary>
         [Fact]
         public void TestMultipleImplement()
         {
@@ -81,6 +85,9 @@ namespace NAutowired.Console.Test
             Assert.Equal(nameof(MultipleImplementFooService), instanceFoo.SayHello());
         }
 
+        /// <summary>
+        /// 接口多实现还原测试
+        /// </summary>
         [Fact]
         public void TestMultipleImplementAutowired()
         {
@@ -88,6 +95,29 @@ namespace NAutowired.Console.Test
             Assert.NotNull(instance);
             Assert.Equal(nameof(MultipleImplementBarService), instance.BarSayHello());
             Assert.Equal(nameof(MultipleImplementFooService), instance.FooSayHello());
+        }
+
+        /// <summary>
+        /// 当接口具有多个实现时，需要显示指定还原哪个实现
+        /// </summary>
+        [Fact]
+        public void TestMultipleImplementImplicitResolve()
+        {
+            Assert.Throws<UnableResolveDependencyException>(() =>
+            {
+                consoleHost.GetService<ImplicitMultipleImplementService>();
+            });
+        }
+
+        /// <summary>
+        /// 单类多接口实现 还原
+        /// </summary>
+        [Fact]
+        public void TestImplicitImplementMultipleInterface()
+        {
+            var service = consoleHost.GetService<ImplicitImplementMultipleInterfaceService>();
+            Assert.IsType<ImplementMultipleInterfaceService>(service.GetFooService());
+            Assert.IsType<ImplementMultipleInterfaceService>(service.GetBarService());
         }
 
         //not use  AutoRegisterDependency => dependency myself.=>circular dependency

@@ -46,7 +46,16 @@ namespace NAutowired.Core
                 }
                 if (realType == null)
                 {
-                    instance = serviceProvider.GetService(memberType);
+                    var implements = serviceProvider.GetServices(memberType);
+                    if (implements == null)
+                    {
+                        throw new UnableResolveDependencyException($"Unable to resolve dependency {memberType.FullName}");
+                    }
+                    if (implements.Count() > 1)
+                    {
+                        throw new UnableResolveDependencyException($"Interfaces with multiple implementations, use [Autowired(typeof(ImplementClass))] to explicit resolve");
+                    }
+                    instance = implements.FirstOrDefault();
                 }
                 else
                 {

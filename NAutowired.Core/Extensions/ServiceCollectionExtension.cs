@@ -151,25 +151,38 @@ namespace NAutowired.Core.Extensions
                 switch (dependencyInjection.Lifetime)
                 {
                     case Lifetime.Transient:
+                        services.AddTransient(dependencyInjection.Type);
                         if (dependencyInjection.ImplementInterface == null)
                         {
-                            services.AddTransient(dependencyInjection.Type);
+                            foreach (var @interface in dependencyInjection.Type.GetInterfaces())
+                            {
+                                services.AddTransient(@interface, dependencyInjection.Type);
+                            }
+
                             break;
                         }
                         services.AddTransient(dependencyInjection.ImplementInterface, dependencyInjection.Type);
                         break;
                     case Lifetime.Scoped:
+                        services.AddScoped(dependencyInjection.Type);
                         if (dependencyInjection.ImplementInterface == null)
                         {
-                            services.AddScoped(dependencyInjection.Type);
+                            foreach (var @interface in dependencyInjection.Type.GetInterfaces())
+                            {
+                                services.AddScoped(@interface, dependencyInjection.Type);
+                            }
                             break;
                         }
                         services.AddScoped(dependencyInjection.ImplementInterface, dependencyInjection.Type);
                         break;
                     case Lifetime.Singleton:
+                        services.AddSingleton(dependencyInjection.Type);
                         if (dependencyInjection.ImplementInterface == null)
                         {
-                            services.AddSingleton(dependencyInjection.Type);
+                            foreach (var @interface in dependencyInjection.Type.GetInterfaces())
+                            {
+                                services.AddSingleton(@interface, dependencyInjection.Type);
+                            }
                             break;
                         }
                         services.AddSingleton(dependencyInjection.ImplementInterface, dependencyInjection.Type);

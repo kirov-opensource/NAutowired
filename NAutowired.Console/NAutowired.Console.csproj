@@ -5,10 +5,10 @@
     <PackageProjectUrl>https://github.com/kirov-opensource/NAutowired</PackageProjectUrl>
     <RepositoryUrl>https://github.com/kirov-opensource/NAutowired</RepositoryUrl>
     <Copyright>Copyright © kirov-opensource 2019</Copyright>
-    <PackageReleaseNotes>Support multiple implement</PackageReleaseNotes>
-    <Version>2.0.2</Version>
-    <AssemblyVersion>2.0.2.0</AssemblyVersion>
-    <FileVersion>2.0.2.0</FileVersion>
+    <PackageReleaseNotes>Support implicit multiple implement</PackageReleaseNotes>
+    <Version>2.1.0</Version>
+    <AssemblyVersion>2.1.0.0</AssemblyVersion>
+    <FileVersion>2.1.0.0</FileVersion>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Authors>kirov-opensource</Authors>
@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
-    <PackageReference Include="NAutowired.Core" Version="2.0.2" />
+    <PackageReference Include="NAutowired.Core" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
