@@ -113,6 +113,15 @@ public class FooController : ControllerBase {
     }
 }
 ```
+`SnowflakeConfig.cs`
+```csharp
+public class SnowflakeConfig
+{
+    public int DataCenter { get; set; }
+
+    public int Worker { get; set; }
+}
+```
 `appsettings.json`
 ```json
 {
