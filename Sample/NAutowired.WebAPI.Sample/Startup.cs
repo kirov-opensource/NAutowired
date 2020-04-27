@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using NAutowired.Core.Extensions;
+using NAutowired.WebAPI.Sample.Config;
 using System.Collections.Generic;
 
 namespace NAutowired.WebAPI.Sample {
@@ -22,6 +23,8 @@ namespace NAutowired.WebAPI.Sample {
             services.AddControllers().AddControllersAsServices();
             //replace `IControllerActivator` implement.
             services.Replace(ServiceDescriptor.Transient<IControllerActivator, NAutowiredControllerActivator>());
+            //add config to ioc container
+            services.Configure<SnowflakeConfig>(Configuration.GetSection("Snowflake"));
             //use auto dependency injection
             services.AutoRegisterDependency(new List<string> { "NAutowired.WebAPI.Sample" });
         }

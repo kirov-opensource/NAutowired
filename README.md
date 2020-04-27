@@ -93,6 +93,38 @@ public void ConfigureServices(IServiceCollection services) {
   }
 ```
 
+#### 读取配置文件
+```csharp
+  public class Startup {
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services) {
+      //将配置文件添加到ioc容器
+      services.Configure<SnowflakeConfig>(Configuration.GetSection("Snowflake"));
+    }
+  }
+```
+```csharp
+public class FooController : ControllerBase {
+  //使用autowired还原配置
+    [Autowired]
+    private IOptions<SnowflakeConfig> options { get; set; }
+
+    [HttpGet("snowflake")]
+    public IActionResult GetSnowflakeConfig()
+    {
+        return Ok(options.Value);
+    }
+}
+```
+`appsettings.json`
+```json
+{
+  "Snowflake": {
+    "DataCenter": 1,
+    "Worker": 1
+  }
+}
+```
 ### `NET Core 3.0` Console
 * [Console 样例](./Sample/NAutowired.Console.Sample)
 #### 新建`Srartup.cs`文件，并且继承自`NAutowired.Core.Startup`

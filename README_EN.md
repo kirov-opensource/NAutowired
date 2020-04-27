@@ -90,6 +90,38 @@ public void ConfigureServices(IServiceCollection services) {
     }
   }
 ```
+#### Get Configuration
+```csharp
+  public class Startup {
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services) {
+      //add config to ioc container
+      services.Configure<SnowflakeConfig>(Configuration.GetSection("Snowflake"));
+    }
+  }
+```
+```csharp
+public class FooController : ControllerBase {
+  //use autowired get configuration
+    [Autowired]
+    private IOptions<SnowflakeConfig> options { get; set; }
+
+    [HttpGet("snowflake")]
+    public IActionResult GetSnowflakeConfig()
+    {
+        return Ok(options.Value);
+    }
+}
+```
+`appsettings.json`
+```json
+{
+  "Snowflake": {
+    "DataCenter": 1,
+    "Worker": 1
+  }
+}
+```
 
 ### `NET Core 3.0` Console
 * [Console Sample](./Sample/NAutowired.Console.Sample)
