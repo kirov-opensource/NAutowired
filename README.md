@@ -8,7 +8,7 @@
 
 ASP.NET CORE Field Injection
 
-* [中文](./README.md)
+* [中文](./README_CN.md)
 
 ## Idea and positioning
 * We don't make containers, we are just porters of `NetCore Container` (add some features to the default container).
