@@ -6,7 +6,7 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/kirov-opensource/NAutowired.svg?style=flat-square&logo=github)
 
 ASP.NET Core 通过属性注入依赖
-* [English](./README_EN.md)
+* [English](./README.md)
 
 ## 理念与定位
 * 我们不做容器，我们只是`NET Core Container`的搬运工（在默认容器的基础上增加了一些功能）。
