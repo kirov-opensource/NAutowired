@@ -120,6 +120,14 @@ namespace NAutowired.Console.Test
             Assert.IsType<ImplementMultipleInterfaceService>(service.GetBarService());
         }
 
+        [Fact]
+        public void TestBasedAbstractService()
+        {
+            var service = consoleHost.GetService<BasedAbstractService>();
+            Assert.NotNull(service.GetFooService());
+            Assert.IsType<FooService>(service.GetFooService());
+        }
+
         //not use  AutoRegisterDependency => dependency myself.=>circular dependency
         //todo interface autowired test
         //partial 
