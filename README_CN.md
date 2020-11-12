@@ -18,7 +18,7 @@ ASP.NET Core 通过属性注入依赖
 * `nuget`包管理器中引入`NAutowired`和`NAutowired.Core`。
 * `NAutowired`包应该只在Web或Console项目中被引用，`NAutowired.Core`包则在需要添加特性的项目中被引用。
 
-### `ASP.NET Core 3.0`
+### `ASP.NET Core >= 3.0`
 * [WebAPI 样例](./Sample/NAutowired.WebAPI.Sample)
 
 默认情况下，`ASP.NET Core`生成`Controller`时从容器中解析`Controller`构造函数中的依赖，但是不从容器中还原控制器，这导致：
@@ -134,7 +134,7 @@ public class SnowflakeConfig
   }
 }
 ```
-### `NET Core 3.0` Console
+### `NET Core >= 3.0` Console
 * [Console 样例](./Sample/NAutowired.Console.Sample)
 #### 新建`Srartup.cs`文件，并且继承自`NAutowired.Core.Startup`
 ```csharp
