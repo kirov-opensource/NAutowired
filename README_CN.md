@@ -134,7 +134,7 @@ public class SnowflakeConfig
   }
 }
 ```
-### `NET Core >= 3.0` Console
+### `NET Core` Console >= 3.0
 * [Console 样例](./Sample/NAutowired.Console.Sample)
 #### 新建`Srartup.cs`文件，并且继承自`NAutowired.Core.Startup`
 ```csharp
