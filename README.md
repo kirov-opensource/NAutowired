@@ -132,7 +132,7 @@ public class SnowflakeConfig
 }
 ```
 
-### `NET Core >= 3.0` Console
+### `NET Core` Console >= 3.0
 * [Console Sample](./Sample/NAutowired.Console.Sample)
 #### Create a new `Srartup.cs` file and inherit from `NAutowired.Core.Startup`
 ```csharp
