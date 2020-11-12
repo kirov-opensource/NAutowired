@@ -20,7 +20,7 @@ ASP.NET CORE Field Injection
 * Introducing `NAutowired` and `NAutowired.Core` in the nuget.
 * The `NAutowired` package should only be referenced in the web project, and the `NAutowired.Core` package is referenced in projects that need to add features.
 
-### `ASP.NET Core 3.0`
+### `ASP.NET Core >= 3.0`
 * [WebAPI Sample](./Sample/NAutowired.WebAPI.Sample)
 
 By default, when `ASP.NET Core` generates `Controller`, dependencies in the `Controller` constructor are resolved from the container, but the controller is not resolved from the container, which results in:
@@ -132,7 +132,7 @@ public class SnowflakeConfig
 }
 ```
 
-### `NET Core 3.0` Console
+### `NET Core >= 3.0` Console
 * [Console Sample](./Sample/NAutowired.Console.Sample)
 #### Create a new `Srartup.cs` file and inherit from `NAutowired.Core.Startup`
 ```csharp
