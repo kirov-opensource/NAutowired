@@ -128,8 +128,12 @@ namespace NAutowired.Console.Test
             Assert.IsType<FooService>(service.GetFooService());
         }
 
-        //not use  AutoRegisterDependency => dependency myself.=>circular dependency
-        //todo interface autowired test
-        //partial 
+        //[Fact]
+        //public void TestConstructorResolveService()
+        //{
+        //    var service = consoleHost.GetService<FooService>();
+        //    Assert.NotNull(service.GetBarService());
+        //    Assert.IsType<BarService>(service.GetBarService());
+        //}
     }
 }
