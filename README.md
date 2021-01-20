@@ -212,4 +212,4 @@ class Program
   public class FooService: IService {
   }
 ```
- `NAutowired` will automatically scan all classes under the assembly configured by the `AddAutoDependencyInjection(assemblyName)` method, and inject the class with the `[Service] [Repository] [Component] [ServiceFilter]` property into the container.
+ `NAutowired` will automatically scan all classes under the assembly configured by the `AutoRegisterDependency(assemblyName)` method, and inject the class with the `[Service] [Repository] [Component] [ServiceFilter]` property into the container.
