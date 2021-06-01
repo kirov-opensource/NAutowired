@@ -215,3 +215,7 @@ class Program
 
 ```
 `NAutowired`会自动扫描`AutoRegisterDependency(assemblyNames)`方法配置的程序集下的所有类，并将具有`[Service] [Repository] [Component] [ServiceFilter]`特性的类注入到容器。
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/kirov-opensource/NAutowired.svg)](https://starchart.cc/kirov-opensource/NAutowired)
