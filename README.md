@@ -213,3 +213,8 @@ class Program
   }
 ```
  `NAutowired` will automatically scan all classes under the assembly configured by the `AutoRegisterDependency(assemblyName)` method, and inject the class with the `[Service] [Repository] [Component] [ServiceFilter]` property into the container.
+
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/kirov-opensource/NAutowired.svg)](https://starchart.cc/kirov-opensource/NAutowired)
