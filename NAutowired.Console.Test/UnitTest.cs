@@ -97,17 +97,18 @@ namespace NAutowired.Console.Test
             Assert.Equal(nameof(MultipleImplementFooService), instance.FooSayHello());
         }
 
-        /// <summary>
-        /// 当接口具有多个实现时，需要显示指定还原哪个实现
-        /// </summary>
-        [Fact]
-        public void TestMultipleImplementImplicitResolve()
-        {
-            Assert.Throws<UnableResolveDependencyException>(() =>
-            {
-                consoleHost.GetService<ImplicitMultipleImplementService>();
-            });
-        }
+        //有多实现不再报错
+        ///// <summary>
+        ///// 当接口具有多个实现时，需要显示指定还原哪个实现
+        ///// </summary>
+        //[Fact]
+        //public void TestMultipleImplementImplicitResolve()
+        //{
+        //    Assert.Throws<UnableResolveDependencyException>(() =>
+        //    {
+        //        consoleHost.GetService<ImplicitMultipleImplementService>();
+        //    });
+        //}
 
         /// <summary>
         /// 单类多接口实现 还原
@@ -135,5 +136,17 @@ namespace NAutowired.Console.Test
         //    Assert.NotNull(service.GetBarService());
         //    Assert.IsType<BarService>(service.GetBarService());
         //}
+
+        /// <summary>
+        /// 当接口具有多个实现时，可以注入集合
+        /// </summary>
+        [Fact]
+        public void TestMultipleImplementCollectionResolve()
+        {
+            var instance = consoleHost.GetService<EnumerableMultipleImplementService>();
+            Assert.NotNull(instance);
+            Assert.Contains("MultipleImplementBarService", instance.SayHello());
+            Assert.Contains("MultipleImplementFooService", instance.SayHello());
+        }
     }
 }
