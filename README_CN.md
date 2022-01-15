@@ -46,6 +46,9 @@ public void ConfigureServices(IServiceCollection services) {
     public void ConfigureServices(IServiceCollection services) {
       //将FooService加到容器
       services.AddScoped<FooService>();
+      //将多个IBarService实现加到容器
+      services.AddScoped<IBarService, MyBarService1>();
+      services.AddScoped<IBarService, MyBarService2>();
     }
   }
 ```
@@ -57,6 +60,10 @@ public void ConfigureServices(IServiceCollection services) {
     //使用Autowired Attribute注入实例
     [Autowired]
     private readonly FooService fooService;
+
+    //支持注入集合
+    [Autowired]
+    private readonly IEnumerable<IBarService> barServices;
 
     [HttpGet]
     public ActionResult<string> Get() {
@@ -215,6 +222,16 @@ class Program
 
 ```
 `NAutowired`会自动扫描`AutoRegisterDependency(assemblyNames)`方法配置的程序集下的所有类，并将具有`[Service] [Repository] [Component] [ServiceFilter]`特性的类注入到容器。
+
+#### `NAutowired`提供了`WithAutowired`、`GetServiceWithAutowired`扩展方法，可以从容器中获取服务，并自动解析其`[Autowired]`依赖。在需要手动获取服务或者解析现有实例时使用这些方法尤为方便。
+```csharp
+services.AddSingleton(sp =>
+{
+    var foo = sp.GetServiceWithAutowired<IFooService>();
+    return foo.Create();
+});
+
+```
 
 ## Stargazers over time
 

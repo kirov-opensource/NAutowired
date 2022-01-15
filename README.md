@@ -45,6 +45,9 @@ public void ConfigureServices(IServiceCollection services) {
 public void ConfigureServices(IServiceCollection services) {
     //Add FooService to container.
     services.AddScoped<FooService>();
+    //Add IBarService implements to container.
+    services.AddScoped<IBarService, MyBarService1>();
+    services.AddScoped<IBarService, MyBarService2>();
 }
 ```
 ```csharp
@@ -55,6 +58,10 @@ public void ConfigureServices(IServiceCollection services) {
     //Use Autowired injection.
     [Autowired]
     private readonly FooService fooService;
+
+    //Also supports IEnumerable<T> injection.
+    [Autowired]
+    private readonly IEnumerable<IBarService> barServices;
 
     [HttpGet]
     public ActionResult<string> Get() {
@@ -213,6 +220,17 @@ class Program
   }
 ```
  `NAutowired` will automatically scan all classes under the assembly configured by the `AutoRegisterDependency(assemblyName)` method, and inject the class with the `[Service] [Repository] [Component] [ServiceFilter]` property into the container.
+ 
+ #### `NAutowired` provides `WithAutowired`、`GetServiceWithAutowired` extension methods，which can obtain services from containers and automatically resolve their `[Autowired]` dependencies. It's particularly convenient when you need to manually obtain services or resolve existing instances.
+```csharp
+services.AddSingleton(sp =>
+{
+    var foo = sp.GetServiceWithAutowired<IFooService>();
+    return foo.Create();
+});
+
+```
+
 
 
 ## Stargazers over time
