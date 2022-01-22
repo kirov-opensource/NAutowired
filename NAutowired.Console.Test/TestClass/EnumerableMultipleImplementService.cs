@@ -9,14 +9,9 @@ namespace NAutowired.Console.Test.TestClass
         [Autowired]
         private readonly IEnumerable<IMultipleImplement> multipleImplements;
 
-        public string SayHello()
+        public IEnumerable<IMultipleImplement> SayHello()
         {
-            string rtn = "";
-            foreach(var impl in multipleImplements)
-            {
-                rtn += impl.SayHello() + ";";
-            }
-            return rtn;
+            return multipleImplements;
         }
 
     }
