@@ -69,6 +69,11 @@ public void ConfigureServices(IServiceCollection services) {
     public ActionResult<string> Get() {
       return fooService == null ? "failure" : "success";
     }
+
+    [HttpPost]
+    public ActionResult<string> Baz() {
+      return barServices?.Count > 0 ? "success" : "failure";
+    }
   }
 ```
 #### 在`Filter`中使用`NAutowired`
