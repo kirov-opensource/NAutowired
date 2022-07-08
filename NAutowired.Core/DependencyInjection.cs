@@ -97,7 +97,8 @@ namespace NAutowired.Core
         /// <returns></returns>
         private static object GetInstance(InstanceScopeModel instanceScopeModel, Type type)
         {
-            if (instanceScopeModel.Instance.GetType() == type)
+            if (type.IsInterface && type.IsAssignableFrom(instanceScopeModel.Instance.GetType()) ||
+                instanceScopeModel.Instance.GetType() == type)
             {
                 return instanceScopeModel.Instance;
             }

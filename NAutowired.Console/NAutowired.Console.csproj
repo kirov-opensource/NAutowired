@@ -27,14 +27,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NAutowired.Core" Version="2.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NAutowired.Core" Version="2.2.0" />
   </ItemGroup>
 
 </Project>
