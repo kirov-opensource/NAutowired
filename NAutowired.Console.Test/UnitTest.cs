@@ -63,6 +63,17 @@ namespace NAutowired.Console.Test
         }
 
         [Fact]
+        public void TestCircularInterfaceDependency()
+        {
+            var circularDependencyFooService = consoleHost.GetService<CircularDependencyBInterfaceService>();
+            Assert.NotNull(circularDependencyFooService);
+            Assert.NotNull(circularDependencyFooService.GetCircularDependencyAService());
+            var circularDependencyBarService = consoleHost.GetService<CircularDependencyAInterfaceService>();
+            Assert.NotNull(circularDependencyBarService);
+            Assert.NotNull(circularDependencyBarService.GetCircularDependencyBService());
+        }
+
+        [Fact]
         public void TestBaseAutowired()
         {
             var baseService = consoleHost.GetService<BaseService>();
