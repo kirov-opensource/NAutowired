@@ -35,9 +35,8 @@ namespace NAutowired.Core
             foreach (var memberInfo in instanceScopeModel.Instance.GetType().GetFullMembers())
             {
                 var customeAttribute = memberInfo.GetCustomAttribute(autowiredAttributeType, false);
-                var memberType = memberInfo.GetRealType();
-                var realType = ((AutowiredAttribute)customeAttribute).RealType;
-                var instance = GetInstance(instanceScopeModel, realType ?? memberType);
+                var memberType = ((AutowiredAttribute)customeAttribute).RealType ?? memberInfo.GetRealType();
+                var instance = GetInstance(instanceScopeModel, memberType);
                 //如果依赖树能找到,则说明此处含有循环依赖,从依赖树还原
                 //从parent instance 还原
                 if (instance != null)
@@ -47,40 +46,30 @@ namespace NAutowired.Core
                 }
 
                 bool memberIsEnumerable = typeof(IEnumerable).IsAssignableFrom(memberType) && memberType.IsGenericType;
-                //解析IEnumberable<T>服务集合
                 if (memberIsEnumerable)
                 {
-                    Type elType = memberType.GetGenericArguments()[0];
-                    var implements = serviceProvider.GetServices(elType);
-                    if (realType == null)
-                    {
-                        instance = implements;
-                    }
-                    else
-                    {
-                        instance = implements?.Where(i => i.GetType() == realType);
-                    }
+                    Type elementType = memberType.GetGenericArguments()[0];
+                    instance = serviceProvider.GetServices(elementType);
                 }
-                else //解析单个服务
+                else
                 {
-                    instance = serviceProvider.GetService(memberType);
+                    instance = serviceProvider.GetServices(memberType)?.FirstOrDefault();
                 }
 
                 if (instance == null)
                 {
                     throw new UnableResolveDependencyException($"Unable to resolve dependency {memberType.FullName}");
                 }
+
                 //将Instance赋值给属性
                 memberInfo.SetValue(instanceScopeModel.Instance, instance);
 
-                //本层可能注入服务集合，那么下层需要注入的是集合内的实例。
-                IEnumerable elementInstances = memberIsEnumerable ? (IEnumerable)instance : new ArrayList() { instance };
-                foreach (var ins in elementInstances)
+                foreach (var instanceElement in (IEnumerable)(memberIsEnumerable ? instance : new object[] { instance }))
                 {
                     //构建下一个节点
                     var nextInstanceScopeModel = new InstanceScopeModel
                     {
-                        Instance = ins,
+                        Instance = instanceElement,
                         ParentInstanceScope = instanceScopeModel
                     };
                     //递归注入的属性是否有其它依赖
