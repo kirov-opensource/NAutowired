@@ -1,0 +1,18 @@
+name: Pull Request Workflow
+on: 
+  pull_request:
+
+jobs:
+  test-nautowired-console:
+    name: build nautowired console
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: NAutowired.Console
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+      - run: "dotnet test NAutowired.Console.csproj"
+        name: 'Unit Test'
