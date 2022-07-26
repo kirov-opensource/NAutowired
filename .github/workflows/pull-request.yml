@@ -4,7 +4,7 @@ on:
 
 jobs:
   test-nautowired-console:
-    name: build nautowired console
+    name: test nautowired console
     runs-on: ubuntu-latest
     defaults:
       run:
