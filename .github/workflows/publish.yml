@@ -1,0 +1,27 @@
+name: Release Workflow
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish-nautowired:
+    name: publish nautowired
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+      - run: 'dotnet pack NAutowired/NAutowired.csproj --output nupkgs --configuration Release -p:PackageVersion=${{ github.ref_name }}'
+        name: 'pack NAutowired'
+      - run: 'dotnet pack NAutowired.Core/NAutowired.Core.csproj --output nupkgs --configuration Release -p:PackageVersion=${{ github.ref_name }}'
+        name: 'pack NAutowired.Core'
+      - run: 'dotnet pack NAutowired.Console/NAutowired.Console.csproj --output nupkgs --configuration Release -p:PackageVersion=${{ github.ref_name }}'
+        name: 'pack NAutowired.Console'
+      - run: 'dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/OWNER/index.json"'
+      - run: 'dotnet nuget push "nupkgs/NAutowired.${{ github.ref_name }}.nupkg" --source "github"'
+        name: 'publish NAutowired to Github'
+      - run: 'dotnet nuget push "nupkgs/NAutowired.Core.${{ github.ref_name }}.nupkg" --source "github"'
+        name: 'publish NAutowired.Core to Github'
+      - run: 'dotnet nuget push "nupkgs/NAutowired.Console.${{ github.ref_name }}.nupkg" --source "github"'
+        name: 'publish NAutowired.Console to Github'

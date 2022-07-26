@@ -36,8 +36,8 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="NAutowired.Core" Version="2.3.1" />
-  </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NAutowired.Core\NAutowired.Core.csproj" />
+  </ItemGroup>
 </Project>
