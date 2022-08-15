@@ -19,8 +19,11 @@ ASP.NET Core 通过属性注入依赖
 * `nuget`包管理器中引入`NAutowired`和`NAutowired.Core`。
 * `NAutowired`包应该只在Web或Console项目中被引用，`NAutowired.Core`包则在需要添加特性的项目中被引用。
 
-### `ASP.NET Core >= 3.0`
-* [WebAPI 样例](./Sample/NAutowired.WebAPI.Sample)
+### `ASP.NET Core 3.0`
+* [ASP.NET Core 3 WebAPI 样例](./Sample/NAutowired.WebAPI.Sample)
+
+### `ASP.NET Core 6.0`
+* [ASP.NET Core 6 WebAPI 样例](./Sample/NAutowired.AasNetCore6.WebAPI.Sample)
 
 默认情况下，`ASP.NET Core`生成`Controller`时从容器中解析`Controller`构造函数中的依赖，但是不从容器中还原控制器，这导致：
 * `Controller`的生命周期由框架处理，而不是请求的生命周期
