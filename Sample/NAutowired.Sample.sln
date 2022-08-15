@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAutowired.WebAPI.Sample", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAutowired.Console.Sample", "NAutowired.Console.Sample\NAutowired.Console.Sample.csproj", "{E75437C1-62A5-49C1-80B9-C9A3FA81BE38}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NAutowired.AspNetCore6.WebAPI.Sample", "NAutowired.AasNetCore6.WebAPI.Sample\NAutowired.AspNetCore6.WebAPI.Sample.csproj", "{7DCE1A43-2456-49F3-A351-E8C623281E15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E75437C1-62A5-49C1-80B9-C9A3FA81BE38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E75437C1-62A5-49C1-80B9-C9A3FA81BE38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E75437C1-62A5-49C1-80B9-C9A3FA81BE38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DCE1A43-2456-49F3-A351-E8C623281E15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DCE1A43-2456-49F3-A351-E8C623281E15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DCE1A43-2456-49F3-A351-E8C623281E15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DCE1A43-2456-49F3-A351-E8C623281E15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

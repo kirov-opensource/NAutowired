@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>NAutowired.AspNetCore6.WebAPI.Sample</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="NAutowired" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Config\" />
+    <None Remove="Repository\" />
+    <None Remove="Service\" />
+    <None Remove="NAutowired" />
+    <None Remove="Filters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Config\" />
+    <Folder Include="Repository\" />
+    <Folder Include="Service\" />
+    <Folder Include="Filters\" />
+  </ItemGroup>
+</Project>

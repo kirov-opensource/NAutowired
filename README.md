@@ -21,8 +21,11 @@ ASP.NET CORE Field Injection
 * Introducing `NAutowired` and `NAutowired.Core` in the nuget.
 * The `NAutowired` package should only be referenced in the web project, and the `NAutowired.Core` package is referenced in projects that need to add features.
 
-### `ASP.NET Core >= 3.0`
-* [WebAPI Sample](./Sample/NAutowired.WebAPI.Sample)
+### `ASP.NET Core 3.0`
+* [ASP.NET Core 3 WebAPI Sample](./Sample/NAutowired.WebAPI.Sample)
+
+### `ASP.NET Core 6.0`
+* [ASP.NET Core 6 WebAPI Sample](./Sample/NAutowired.AasNetCore6.WebAPI.Sample)
 
 By default, when `ASP.NET Core` generates `Controller`, dependencies in the `Controller` constructor are resolved from the container, but the controller is not resolved from the container, which results in:
 * The lifetime of the `Controller` is handled by the framework, not the lifetime of the request
