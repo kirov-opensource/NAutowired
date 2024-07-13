@@ -2,10 +2,10 @@
 using NAutowired.Core.Attributes;
 using NAutowired.Core.Exceptions;
 using NAutowired.Core.Extensions;
-using NAutowired.Core.Models;
 using System;
 using System.Collections;
-using System.Linq;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace NAutowired.Core
@@ -13,6 +13,7 @@ namespace NAutowired.Core
     public static class DependencyInjection
     {
         private readonly static Type autowiredAttributeType = typeof(AutowiredAttribute);
+        private static ConcurrentDictionary<Type, IList<MemberInfo>> typeMemberCache = new ConcurrentDictionary<Type, IList<MemberInfo>>();
 
         /// <summary>
         /// 属性依赖注入
@@ -22,77 +23,56 @@ namespace NAutowired.Core
         /// <param name="typeInstance"></param>
         public static void Resolve<T>(IServiceProvider serviceProvider, T typeInstance)
         {
-            ResolveDependencyTree(serviceProvider, new InstanceScopeModel { Instance = typeInstance });
-        }
-
-        /// <summary>
-        /// 分析
-        /// </summary>
-        /// <param name="serviceProvider"></param>
-        /// <param name="instanceScopeModel"></param>
-        private static void ResolveDependencyTree(IServiceProvider serviceProvider, InstanceScopeModel instanceScopeModel)
-        {
-            foreach (var memberInfo in instanceScopeModel.Instance.GetType().GetFullMembers())
+            // 创建一个队列，用于存储需要注入属性的对象
+            Queue<object> targetQueue = new Queue<object>();
+            targetQueue.Enqueue(typeInstance);
+            // 已解析的实例集合，用于处理循环依赖
+            HashSet<object> instanceSet = new HashSet<object>() { typeInstance };
+            while (targetQueue.Count > 0)
             {
-                var customeAttribute = memberInfo.GetCustomAttribute(autowiredAttributeType, false);
-                var memberType = ((AutowiredAttribute)customeAttribute).RealType ?? memberInfo.GetRealType();
-                var instance = GetInstance(instanceScopeModel, memberType);
-                //如果依赖树能找到,则说明此处含有循环依赖,从依赖树还原
-                //从parent instance 还原
-                if (instance != null)
+                var targetObject = targetQueue.Dequeue();
+                var members = typeMemberCache.GetOrAdd(targetObject.GetType(), (type) =>
                 {
-                    memberInfo.SetValue(instanceScopeModel.Instance, instance);
-                    continue;
-                }
-
-                bool memberIsEnumerable = typeof(IEnumerable).IsAssignableFrom(memberType) && memberType.IsGenericType;
-                if (memberIsEnumerable)
+                    return type.GetFullMembers();
+                });
+                foreach (var memberInfo in members)
                 {
-                    Type elementType = memberType.GetGenericArguments()[0];
-                    instance = serviceProvider.GetServices(elementType);
-                }
-                else
-                {
-                    instance = serviceProvider.GetServices(memberType)?.FirstOrDefault();
-                }
-
-                if (instance == null)
-                {
-                    throw new UnableResolveDependencyException($"Unable to resolve dependency {memberType.FullName}");
-                }
-
-                //将Instance赋值给属性
-                memberInfo.SetValue(instanceScopeModel.Instance, instance);
-
-                foreach (var instanceElement in (IEnumerable)(memberIsEnumerable ? instance : new object[] { instance }))
-                {
-                    //构建下一个节点
-                    var nextInstanceScopeModel = new InstanceScopeModel
+                    var customeAttribute = memberInfo.GetCustomAttribute(autowiredAttributeType, false);
+                    var memberType = ((AutowiredAttribute)customeAttribute).RealType ?? memberInfo.GetRealType();
+                    object instance = null;
+                    bool memberIsEnumerable = typeof(IEnumerable).IsAssignableFrom(memberType) && memberType.IsGenericType;
+                    if (memberIsEnumerable)
                     {
-                        Instance = instanceElement,
-                        ParentInstanceScope = instanceScopeModel
-                    };
-                    //递归注入的属性是否有其它依赖
-                    ResolveDependencyTree(serviceProvider, nextInstanceScopeModel);
+                        Type elementType = memberType.GetGenericArguments()[0];
+                        instance = serviceProvider.GetServices(elementType);
+                        memberInfo.SetValue(targetObject, instance);
+                        // 如果是不存在的新实例，则添加到待解析依赖队列
+                        if (!instanceSet.Contains(instance))
+                        {
+                            instanceSet.Add(instance);
+                            foreach (object t in (instance as IEnumerable<object>))
+                            {
+                                targetQueue.Enqueue(t);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        instance = serviceProvider.GetService(memberType);
+                        if (instance == null)
+                        {
+                            throw new UnableResolveDependencyException($"Unable to resolve dependency {memberType.FullName}");
+                        }
+
+                        memberInfo.SetValue(targetObject, instance);
+                        if (!instanceSet.Contains(instance))
+                        {
+                            instanceSet.Add(instance);
+                            targetQueue.Enqueue(instance);
+                        }
+                    }
                 }
             }
-        }
-
-        /// <summary>
-        /// 递归查找父节点
-        /// </summary>
-        /// <param name="instanceScopeModel"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        private static object GetInstance(InstanceScopeModel instanceScopeModel, Type type)
-        {
-            if (type.IsInterface && type.IsAssignableFrom(instanceScopeModel.Instance.GetType()) ||
-                instanceScopeModel.Instance.GetType() == type)
-            {
-                return instanceScopeModel.Instance;
-            }
-            if (instanceScopeModel.ParentInstanceScope == null) { return null; }
-            return GetInstance(instanceScopeModel.ParentInstanceScope, type);
         }
     }
 }
